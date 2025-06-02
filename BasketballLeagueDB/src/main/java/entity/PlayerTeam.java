@@ -8,28 +8,28 @@ import java.time.LocalDate;
 public class PlayerTeam {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_team_seq")
+    @SequenceGenerator(name = "player_team_seq", sequenceName = "PLAYER_TEAM_SEQ", allocationSize = 1)
     @Column(name = "PLAYER_TEAM_ID")
-    private Integer id;
+    public Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "PLAYER_ID")
-    private Player player;
+    @JoinColumn(name = "PLAYER_ID", nullable = false)
+    public Player player;
 
     @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    @JoinColumn(name = "TEAM_ID", nullable = false)
+    public Team team;
 
     @Column(name = "SEASON_ID")
-    private Integer seasonId;
+    public Integer seasonId;
 
     @Column(name = "JERSEY_NUMBER")
-    private Integer jerseyNumber;
+    public Integer jerseyNumber;
 
     @Column(name = "START_DATE")
-    private LocalDate startDate;
+    public LocalDate startDate;
 
     @Column(name = "END_DATE")
-    private LocalDate endDate;
-
+    public LocalDate endDate;
 }

@@ -1,3 +1,4 @@
+import entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,6 +10,12 @@ public class Main {
     public static void main(String[] args) {
         sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
+
+        //Team team = new Team("Chicago Bulls", "Chicago", "United Center", "Y");
+        //Transaction tx = session.beginTransaction();
+        //session.save(team);
+        //tx.commit();
+
         session.close();
         System.out.println("koniec.");
     }

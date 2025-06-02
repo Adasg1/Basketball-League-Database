@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "TEAM")
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_seq")
+    @SequenceGenerator(name = "team_seq", sequenceName = "TEAM_SEQ", allocationSize = 1)
     @Column(name = "TEAM_ID")
     private Integer id;
 
@@ -20,7 +21,17 @@ public class Team {
     private String arena;
 
     @Column(name = "IS_ACTIVE", length = 1)
-    private String isActive; // Można też: boolean + konwersja (opiszę niżej)
+    private String isActive;
+
+    public Team() {
+    }
+
+    public Team(String name, String city, String arena, String isActive) {
+        this.name = name;
+        this.city = city;
+        this.arena = arena;
+        this.isActive = isActive;
+    }
 
     public Integer getId() {
         return id;
