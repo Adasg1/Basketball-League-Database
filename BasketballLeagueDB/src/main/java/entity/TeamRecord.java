@@ -37,4 +37,20 @@ public class TeamRecord {
 
     @Column(name = "AWAY_LOSSES")
     public Integer awayLosses;
+
+    public TeamRecord() {
+    }
+
+    public TeamRecord(Team team, Season season, Integer wins, Integer losses,
+                      Integer homeWins, Integer homeLosses,
+                      Integer awayWins, Integer awayLosses) {
+        this.team = team;
+        this.season = season;
+        this.wins = wins;
+        this.losses = losses;
+        this.homeWins = homeWins;
+        this.homeLosses = homeLosses;
+        this.awayWins = awayWins;
+        this.awayLosses = awayLosses;
+    }
 }

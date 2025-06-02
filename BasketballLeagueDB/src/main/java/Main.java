@@ -11,10 +11,10 @@ public class Main {
         sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        //Team team = new Team("Chicago Bulls", "Chicago", "United Center", "Y");
-        //Transaction tx = session.beginTransaction();
-        //session.save(team);
-        //tx.commit();
+        Team team = new Team("Chicago Bulls", "Chicago", "United Center", "Y");
+        Transaction tx = session.beginTransaction();
+        session.save(team);
+        tx.commit();
 
         session.close();
         System.out.println("koniec.");

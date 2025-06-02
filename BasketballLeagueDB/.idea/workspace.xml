@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e19d6bfb-5563-4fce-a38b-b0426fad3bf2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ce711600-b496-4645-b9be-1b839f5bd20e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ce711600-b496-4645-b9be-1b839f5bd20e.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/GameStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/GameStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/PlayerTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/PlayerTeam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Playoffs.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/Season.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Season.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Team.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entity/TeamRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/TeamRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +95,7 @@
       <updated>1748817448870</updated>
       <workItem from="1748817449730" duration="1619000" />
       <workItem from="1748819559254" duration="4976000" />
-      <workItem from="1748859091855" duration="7383000" />
+      <workItem from="1748859091855" duration="10383000" />
     </task>
     <servers />
   </component>

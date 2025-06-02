@@ -47,4 +47,22 @@ public class Player {
 
     @OneToMany(mappedBy = "player")
     public List<PlayerTeam> playerTeams;
+
+    public Player() {
+    }
+
+    public Player(Team team, String firstName, String lastName, LocalDate birthDate,
+                  String position, String nationality, Integer jerseyNumber,
+                  Integer height, Integer weight, String isActive) {
+        this.team = team;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.position = position;
+        this.nationality = nationality;
+        this.jersey_number = jerseyNumber;
+        this.height = height;
+        this.weight = weight;
+        this.isActive = isActive;
+    }
 }

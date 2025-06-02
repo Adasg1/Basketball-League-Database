@@ -50,4 +50,22 @@ public class Game {
 
     @OneToMany(mappedBy = "game")
     public List<GameStats> gameStats;
+
+    public Game() {
+    }
+
+    public Game(Season season, Team homeTeam, Team awayTeam, Team winnerTeam,
+                LocalDate gameDate, Integer homeScore, Integer awayScore,
+                String status, Integer currentPeriod, Double timeRemaining) {
+        this.season = season;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.winnerTeam = winnerTeam;
+        this.gameDate = gameDate;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.status = status;
+        this.currentPeriod = currentPeriod;
+        this.timeRemaining = timeRemaining;
+    }
 }

@@ -32,4 +32,16 @@ public class PlayerTeam {
 
     @Column(name = "END_DATE")
     public LocalDate endDate;
+
+    public PlayerTeam() {
+    }
+
+    public PlayerTeam(Player player, Team team, Integer seasonId, Integer jerseyNumber, LocalDate startDate, LocalDate endDate) {
+        this.player = player;
+        this.team = team;
+        this.seasonId = seasonId;
+        this.jerseyNumber = jerseyNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -25,4 +25,13 @@ public class Season {
 
     @OneToMany(mappedBy = "season")
     public List<TeamRecord> teamRecords;
+
+    public Season() {
+    }
+
+    public Season(String seasonYear, LocalDate startDate, LocalDate endDate) {
+        this.seasonYear = seasonYear;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -71,4 +71,34 @@ public class GameStats {
 
     @Column(name = "PLUS_MINUS")
     public Integer plusMinus;
+
+    public GameStats() {
+    }
+
+    public GameStats(Game game, Player player, Team team, Integer timePlayedInSeconds, Integer points,
+                     Integer rebounds, Integer assists, Integer steals, Integer blocks, Integer turnovers,
+                     Integer fieldGoalsMade, Integer fieldGoalsAttempted,
+                     Integer threePointsMade, Integer threePointsAttempted,
+                     Integer freeThrowsMade, Integer freeThrowsAttempted,
+                     Integer fouls, Integer foulsOn, Integer plusMinus) {
+        this.game = game;
+        this.player = player;
+        this.team = team;
+        this.timePlayedInSeconds = timePlayedInSeconds;
+        this.points = points;
+        this.rebounds = rebounds;
+        this.assists = assists;
+        this.steals = steals;
+        this.blocks = blocks;
+        this.turnovers = turnovers;
+        this.fieldGoalsMade = fieldGoalsMade;
+        this.fieldGoalsAttempted = fieldGoalsAttempted;
+        this.threePointsMade = threePointsMade;
+        this.threePointsAttempted = threePointsAttempted;
+        this.freeThrowsMade = freeThrowsMade;
+        this.freeThrowsAttempted = freeThrowsAttempted;
+        this.fouls = fouls;
+        this.foulsOn = foulsOn;
+        this.plusMinus = plusMinus;
+    }
 }
