@@ -1,16 +1,21 @@
-<?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property
-                name="connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
-        <property
-                name="connection.url">jdbc:derby://127.0.0.1/BasketballLeagueDB;create=true</property>
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-        <property name="use_sql_comments">true</property>
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@dbmanage.lab.ii.agh.edu.pl:1521:DBMANAGE</property>
+        <property name="hibernate.connection.username">BD_421743</property> <!-- <- Twój login -->
+        <property name="hibernate.connection.password">A5D5S!</property>
+
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="entity.Team"/>
+        <mapping class="entity.Player"/>
+        <mapping class="entity.PlayerTeam"/>
+        <mapping class="entity.Playoffs"/>
+        <mapping class="entity.Season"/>
+        <mapping class="entity.Game"/>
+        <mapping class="entity.GameStats"/>
+        <mapping class="entity.TeamRecord"/>
     </session-factory>
 </hibernate-configuration>

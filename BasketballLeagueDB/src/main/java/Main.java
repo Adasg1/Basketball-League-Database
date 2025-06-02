@@ -1,5 +1,6 @@
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class Main {
@@ -9,6 +10,7 @@ public class Main {
         sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         session.close();
+        System.out.println("koniec.");
     }
 
     private static SessionFactory getSessionFactory() {
