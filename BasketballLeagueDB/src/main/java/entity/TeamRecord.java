@@ -1,7 +1,11 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 
+@Check(constraints = "WINS + LOSSES = HOME_WINS + HOME_LOSSES + AWAY_WINS + AWAY_LOSSES")
 @Entity
 @Table(name = "TEAM_RECORD")
 public class TeamRecord {
@@ -12,31 +16,45 @@ public class TeamRecord {
     @Column(name = "TEAM_RECORD_ID")
     public Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "TEAM_ID", nullable = false)
     public Team team;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "SEASON_ID", nullable = false)
     public Season season;
 
-    @Column(name = "WINS")
-    public Integer wins;
+    @Min(0)
+    @NotNull
+    @Column(name = "WINS", nullable = false)
+    public Integer wins = 0;
 
-    @Column(name = "LOSSES")
-    public Integer losses;
+    @Min(0)
+    @NotNull
+    @Column(name = "LOSSES", nullable = false)
+    public Integer losses = 0;
 
-    @Column(name = "HOME_WINS")
-    public Integer homeWins;
+    @Min(0)
+    @NotNull
+    @Column(name = "HOME_WINS", nullable = false)
+    public Integer homeWins = 0;
 
-    @Column(name = "HOME_LOSSES")
-    public Integer homeLosses;
+    @Min(0)
+    @NotNull
+    @Column(name = "HOME_LOSSES", nullable = false)
+    public Integer homeLosses = 0;
 
-    @Column(name = "AWAY_WINS")
-    public Integer awayWins;
+    @Min(0)
+    @NotNull
+    @Column(name = "AWAY_WINS", nullable = false)
+    public Integer awayWins = 0;
 
-    @Column(name = "AWAY_LOSSES")
-    public Integer awayLosses;
+    @Min(0)
+    @NotNull
+    @Column(name = "AWAY_LOSSES", nullable = false)
+    public Integer awayLosses = 0;
 
     public TeamRecord() {
     }

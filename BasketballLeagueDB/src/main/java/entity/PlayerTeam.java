@@ -1,6 +1,8 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Entity
@@ -13,21 +15,26 @@ public class PlayerTeam {
     @Column(name = "PLAYER_TEAM_ID")
     public Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "PLAYER_ID", nullable = false)
     public Player player;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "TEAM_ID", nullable = false)
     public Team team;
 
-    @Column(name = "SEASON_ID")
+    @NotNull
+    @Column(name = "SEASON_ID", nullable = false)
     public Integer seasonId;
 
-    @Column(name = "JERSEY_NUMBER")
+    @NotNull
+    @Column(name = "JERSEY_NUMBER", nullable = false)
     public Integer jerseyNumber;
 
-    @Column(name = "START_DATE")
+    @NotNull
+    @Column(name = "START_DATE", nullable = false)
     public LocalDate startDate;
 
     @Column(name = "END_DATE")

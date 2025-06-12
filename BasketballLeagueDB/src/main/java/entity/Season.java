@@ -1,6 +1,8 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +16,8 @@ public class Season {
     @Column(name = "SEASON_ID")
     public Integer id;
 
-    @Column(name = "SEASON_YEAR", length = 16)
+    @NotNull
+    @Column(name = "SEASON_YEAR", length = 16, nullable = false)
     public String seasonYear;
 
     @Column(name = "START_DATE")

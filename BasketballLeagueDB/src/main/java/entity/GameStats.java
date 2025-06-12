@@ -1,6 +1,8 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "GAME_STATS")
@@ -12,65 +14,100 @@ public class GameStats {
     @Column(name = "STAT_ID")
     public Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "GAME_ID", nullable = false)
     public Game game;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "PLAYER_ID", nullable = false)
     public Player player;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "TEAM_ID", nullable = false)
     public Team team;
 
-    @Column(name = "TIME_PLAYED")
-    public Integer timePlayedInSeconds;
+    @Min(0)
+    @NotNull
+    @Column(name = "TIME_PLAYED", nullable = false)
+    public Integer timePlayedInSeconds = 0;
 
-    @Column(name = "POINTS")
-    public Integer points;
+    @Min(0)
+    @NotNull
+    @Column(name = "POINTS", nullable = false)
+    public Integer points = 0;
 
-    @Column(name = "REBOUNDS")
-    public Integer rebounds;
+    @Min(0)
+    @NotNull
+    @Column(name = "REBOUNDS", nullable = false)
+    public Integer rebounds = 0;
 
-    @Column(name = "ASSISTS")
-    public Integer assists;
+    @Min(0)
+    @NotNull
+    @Column(name = "ASSISTS", nullable = false)
+    public Integer assists = 0;
 
-    @Column(name = "STEALS")
-    public Integer steals;
+    @Min(0)
+    @NotNull
+    @Column(name = "STEALS", nullable = false)
+    public Integer steals = 0;
 
-    @Column(name = "BLOCKS")
-    public Integer blocks;
+    @Min(0)
+    @NotNull
+    @Column(name = "BLOCKS", nullable = false)
+    public Integer blocks = 0;
 
-    @Column(name = "TURNOVERS")
-    public Integer turnovers;
+    @Min(0)
+    @NotNull
+    @Column(name = "TURNOVERS", nullable = false)
+    public Integer turnovers = 0;
 
-    @Column(name = "FIELD_GOALS_MADE")
-    public Integer fieldGoalsMade;
+    @Min(0)
+    @NotNull
+    @Column(name = "FIELD_GOALS_MADE", nullable = false)
+    public Integer fieldGoalsMade = 0;
 
-    @Column(name = "FIELD_GOALS_ATTEMPTED")
-    public Integer fieldGoalsAttempted;
+    @Min(0)
+    @NotNull
+    @Column(name = "FIELD_GOALS_ATTEMPTED", nullable = false)
+    public Integer fieldGoalsAttempted = 0;
 
-    @Column(name = "THREE_POINTS_MADE")
-    public Integer threePointsMade;
+    @Min(0)
+    @NotNull
+    @Column(name = "THREE_POINTS_MADE", nullable = false)
+    public Integer threePointsMade = 0;
 
-    @Column(name = "THREE_POINTS_ATTEMPTED")
-    public Integer threePointsAttempted;
+    @Min(0)
+    @NotNull
+    @Column(name = "THREE_POINTS_ATTEMPTED", nullable = false)
+    public Integer threePointsAttempted = 0;
 
-    @Column(name = "FREE_THROWS_MADE")
-    public Integer freeThrowsMade;
+    @Min(0)
+    @NotNull
+    @Column(name = "FREE_THROWS_MADE", nullable = false)
+    public Integer freeThrowsMade = 0;
 
-    @Column(name = "FREE_THROWS_ATTEMPTED")
-    public Integer freeThrowsAttempted;
+    @Min(0)
+    @NotNull
+    @Column(name = "FREE_THROWS_ATTEMPTED", nullable = false)
+    public Integer freeThrowsAttempted = 0;
 
-    @Column(name = "FOULS")
-    public Integer fouls;
+    @Min(0)
+    @NotNull
+    @Column(name = "FOULS", nullable = false)
+    public Integer fouls = 0;
 
-    @Column(name = "FOULS_ON")
-    public Integer foulsOn;
+    @Min(0)
+    @NotNull
+    @Column(name = "FOULS_ON", nullable = false)
+    public Integer foulsOn = 0;
 
-    @Column(name = "PLUS_MINUS")
-    public Integer plusMinus;
+    @Min(0)
+    @NotNull
+    @Column(name = "PLUS_MINUS", nullable = false)
+    public Integer plusMinus = 0;
 
     public GameStats() {
     }
