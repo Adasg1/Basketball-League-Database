@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Basketball-League-Database.iml" filepath="$PROJECT_DIR$/.idea/Basketball-League-Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BasketballLeagueDB/BasketballLeagueDB.iml" filepath="$PROJECT_DIR$/BasketballLeagueDB/BasketballLeagueDB.iml" />
     </modules>
   </component>
 </project>
