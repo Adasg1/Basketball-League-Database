@@ -33,7 +33,8 @@ public class PlayerTeam {
     @Column(name = "JERSEY_NUMBER", nullable = false)
     public Integer jerseyNumber;
 
-    @Column(name = "START_DATE")
+    @NotNull
+    @Column(name = "START_DATE", nullable = false)
     public LocalDate startDate;
 
     @Column(name = "END_DATE")

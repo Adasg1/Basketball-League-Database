@@ -2,6 +2,7 @@ package entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,6 +45,7 @@ public class Game {
     @Column(name = "AWAY_SCORE")
     public Integer awayScore;
 
+    @Pattern(regexp = "[SAF]") // scheduled, active, finished
     @Column(name = "STATUS", length = 1)
     public String status;
 

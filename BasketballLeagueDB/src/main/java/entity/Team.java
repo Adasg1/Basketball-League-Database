@@ -2,7 +2,10 @@ package entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.Check;
 
+@Check(constraints = "IS_ACTIVE IN ('Y','N')")
 @Entity
 @Table(name = "TEAM")
 public class Team {
@@ -23,6 +26,7 @@ public class Team {
     @Column(name = "ARENA", length = 64)
     private String arena;
 
+    @Pattern(regexp = "[YN]")
     @NotNull
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     private String isActive;

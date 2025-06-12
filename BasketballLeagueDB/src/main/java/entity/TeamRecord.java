@@ -1,8 +1,11 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 
+@Check(constraints = "WINS + LOSSES = HOME_WINS + HOME_LOSSES + AWAY_WINS + AWAY_LOSSES")
 @Entity
 @Table(name = "TEAM_RECORD")
 public class TeamRecord {
@@ -23,26 +26,32 @@ public class TeamRecord {
     @JoinColumn(name = "SEASON_ID", nullable = false)
     public Season season;
 
+    @Min(0)
     @NotNull
     @Column(name = "WINS", nullable = false)
     public Integer wins = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "LOSSES", nullable = false)
     public Integer losses = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "HOME_WINS", nullable = false)
     public Integer homeWins = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "HOME_LOSSES", nullable = false)
     public Integer homeLosses = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "AWAY_WINS", nullable = false)
     public Integer awayWins = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "AWAY_LOSSES", nullable = false)
     public Integer awayLosses = 0;

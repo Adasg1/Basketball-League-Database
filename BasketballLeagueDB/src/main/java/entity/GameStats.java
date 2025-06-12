@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -28,66 +29,82 @@ public class GameStats {
     @JoinColumn(name = "TEAM_ID", nullable = false)
     public Team team;
 
+    @Min(0)
     @NotNull
     @Column(name = "TIME_PLAYED", nullable = false)
     public Integer timePlayedInSeconds = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "POINTS", nullable = false)
     public Integer points = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "REBOUNDS", nullable = false)
     public Integer rebounds = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "ASSISTS", nullable = false)
     public Integer assists = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "STEALS", nullable = false)
     public Integer steals = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "BLOCKS", nullable = false)
     public Integer blocks = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "TURNOVERS", nullable = false)
     public Integer turnovers = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FIELD_GOALS_MADE", nullable = false)
     public Integer fieldGoalsMade = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FIELD_GOALS_ATTEMPTED", nullable = false)
     public Integer fieldGoalsAttempted = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "THREE_POINTS_MADE", nullable = false)
     public Integer threePointsMade = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "THREE_POINTS_ATTEMPTED", nullable = false)
     public Integer threePointsAttempted = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FREE_THROWS_MADE", nullable = false)
     public Integer freeThrowsMade = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FREE_THROWS_ATTEMPTED", nullable = false)
     public Integer freeThrowsAttempted = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FOULS", nullable = false)
     public Integer fouls = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "FOULS_ON", nullable = false)
     public Integer foulsOn = 0;
 
+    @Min(0)
     @NotNull
     @Column(name = "PLUS_MINUS", nullable = false)
     public Integer plusMinus = 0;

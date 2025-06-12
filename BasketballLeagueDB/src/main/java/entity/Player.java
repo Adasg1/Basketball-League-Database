@@ -6,6 +6,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "PLAYER")
@@ -29,8 +30,9 @@ public class Player {
     @Column(name = "LASTNAME", length = 32, nullable = false)
     public String lastName;
 
+    @NotNull
     @Past
-    @Column(name = "BIRTHDATE")
+    @Column(name = "BIRTHDATE", nullable = false)
     public LocalDate birthDate;
 
     @NotNull
@@ -52,6 +54,7 @@ public class Player {
     @Column(name = "WEIGHT", nullable = false)
     public Integer weight;
 
+    @Pattern(regexp = "[YN]")
     @NotNull
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     public String isActive;
