@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+
 @Entity
 @Table(name = "PLAYER")
 public class Player {
@@ -18,31 +21,39 @@ public class Player {
     @JoinColumn(name = "TEAM_ID")
     public Team team;
 
-    @Column(name = "FIRSTNAME", length = 32)
+    @NotNull
+    @Column(name = "FIRSTNAME", length = 32, nullable = false)
     public String firstName;
 
-    @Column(name = "LASTNAME", length = 32)
+    @NotNull
+    @Column(name = "LASTNAME", length = 32, nullable = false)
     public String lastName;
 
+    @Past
     @Column(name = "BIRTHDATE")
     public LocalDate birthDate;
 
-    @Column(name = "POSITION", length = 32)
+    @NotNull
+    @Column(name = "POSITION", length = 16, nullable = false)
     public String position;
 
-    @Column(name = "NATIONALITY", length = 32)
+    @NotNull
+    @Column(name = "NATIONALITY", length = 32, nullable = false)
     public String nationality;
 
     @Column(name = "JERSEY_NUMBER")
     public Integer jersey_number;
 
-    @Column(name = "HEIGHT")
+    @NotNull
+    @Column(name = "HEIGHT", nullable = false)
     public Integer height;
 
-    @Column(name = "WEIGHT")
+    @NotNull
+    @Column(name = "WEIGHT", nullable = false)
     public Integer weight;
 
-    @Column(name = "IS_ACTIVE", length = 1)
+    @NotNull
+    @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     public String isActive;
 
     @OneToMany(mappedBy = "player")

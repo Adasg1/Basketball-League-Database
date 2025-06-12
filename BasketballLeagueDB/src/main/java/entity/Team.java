@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TEAM")
@@ -11,16 +12,19 @@ public class Team {
     @Column(name = "TEAM_ID")
     private Integer id;
 
+    @NotNull
     @Column(name = "TEAM_NAME", length = 32, nullable = false)
     private String name;
 
-    @Column(name = "CITY", length = 32)
+    @NotNull
+    @Column(name = "CITY", length = 32, nullable = false)
     private String city;
 
     @Column(name = "ARENA", length = 64)
     private String arena;
 
-    @Column(name = "IS_ACTIVE", length = 1)
+    @NotNull
+    @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     private String isActive;
 
     public Team() {

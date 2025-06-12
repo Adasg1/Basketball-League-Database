@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TEAM_RECORD")
@@ -12,31 +13,39 @@ public class TeamRecord {
     @Column(name = "TEAM_RECORD_ID")
     public Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "TEAM_ID", nullable = false)
     public Team team;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "SEASON_ID", nullable = false)
     public Season season;
 
-    @Column(name = "WINS")
-    public Integer wins;
+    @NotNull
+    @Column(name = "WINS", nullable = false)
+    public Integer wins = 0;
 
-    @Column(name = "LOSSES")
-    public Integer losses;
+    @NotNull
+    @Column(name = "LOSSES", nullable = false)
+    public Integer losses = 0;
 
-    @Column(name = "HOME_WINS")
-    public Integer homeWins;
+    @NotNull
+    @Column(name = "HOME_WINS", nullable = false)
+    public Integer homeWins = 0;
 
-    @Column(name = "HOME_LOSSES")
-    public Integer homeLosses;
+    @NotNull
+    @Column(name = "HOME_LOSSES", nullable = false)
+    public Integer homeLosses = 0;
 
-    @Column(name = "AWAY_WINS")
-    public Integer awayWins;
+    @NotNull
+    @Column(name = "AWAY_WINS", nullable = false)
+    public Integer awayWins = 0;
 
-    @Column(name = "AWAY_LOSSES")
-    public Integer awayLosses;
+    @NotNull
+    @Column(name = "AWAY_LOSSES", nullable = false)
+    public Integer awayLosses = 0;
 
     public TeamRecord() {
     }
