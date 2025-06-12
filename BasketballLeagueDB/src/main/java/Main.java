@@ -11,7 +11,7 @@ public class Main {
         sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        Team team = new Team("Chicago Bulls", "Chicago", "United Center", "Y");
+        Team team = new Team("Chicago Balls", "Chicago", "United Center", "Y");
         Transaction tx = session.beginTransaction();
         session.save(team);
         tx.commit();
