@@ -75,4 +75,16 @@ public class Game {
         this.currentPeriod = currentPeriod;
         this.timeRemaining = timeRemaining;
     }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }

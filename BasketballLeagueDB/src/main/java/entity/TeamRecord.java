@@ -71,4 +71,16 @@ public class TeamRecord {
         this.awayWins = awayWins;
         this.awayLosses = awayLosses;
     }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }

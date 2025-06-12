@@ -138,4 +138,16 @@ public class GameStats {
         this.foulsOn = foulsOn;
         this.plusMinus = plusMinus;
     }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }
