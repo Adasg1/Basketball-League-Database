@@ -11,6 +11,4 @@ public interface TeamService {
     void saveTeam(Team team);
 
     void deleteTeam(Integer id);
-
-    void detach(Team team);
 }

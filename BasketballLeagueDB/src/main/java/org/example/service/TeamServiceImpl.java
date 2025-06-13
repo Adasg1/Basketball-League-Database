@@ -49,9 +49,4 @@ public class TeamServiceImpl implements TeamService {
     public void deleteTeam(Integer id) {
         this.teamRepository.deleteById(id);
     }
-
-    @Override
-    public void detach(Team team) {
-        entityManager.detach(team);
-    }
 }
