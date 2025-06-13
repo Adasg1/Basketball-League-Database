@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: layout(~{::content}, 'All Teams')}">
+
+<body>
+
+  <div th:fragment="content">
+    <h1>Team Management</h1>
+    <p>
+      <a th:href="@{/teams/new}">Add New Team</a>
+    </p>
+
+    <table border="1">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>City</th>
+        <th>Arena</th>
+        <th>Active</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr th:if="${#lists.isEmpty(listTeams)}">
+          <td colspan="5">No Teams Found</td>
+        </tr>
+        <tr th:each="team : ${listTeams}">
+          <td th:text="${team.name}">Lakers</td>
+          <td th:text="${team.city}">Los Angeles</td>
+          <td th:text="${team.arena}">Crypto.com Arena</td>
+          <td th:text="${team.isActive == 'Y' ? 'Yes' : 'No'}">Yes</td>
+          <td>
+            <a th:href="@{/teams/edit/{id}(id=${team.id})}">Update</a>
+            <a th:href="@{/teams/delete/{id}(id=${team.id})}">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
