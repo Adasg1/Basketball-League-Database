@@ -1,8 +1,9 @@
 package org.example.controller;
 
 import entity.Player;
-import entity.Team;
+import entity.Season;
 import org.example.service.PlayerService;
+import org.example.service.SeasonService;
 import org.example.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,19 +13,23 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
 
-    private final PlayerService playerService;
-    private final TeamService teamService;
+    @Autowired
+    private PlayerService playerService;
 
     @Autowired
-    public PlayerController(PlayerService playerService, TeamService teamService) {
-        this.playerService = playerService;
-        this.teamService = teamService;
-    }
+    private TeamService teamService;
+
+    @Autowired
+    private SeasonService seasonService;
+
 
     @GetMapping
     public String listPlayers(Model model) {
@@ -64,5 +69,17 @@ public class PlayerController {
     public String deletePlayer(@PathVariable("id") Integer id) {
         playerService.deletePlayer(id);
         return "redirect:/players";
+    }
+
+    @GetMapping("/{id}/career")
+    public String viewCareer(@PathVariable Integer id, Model model) {
+        System.out.println("CAREER ID = " + id); // <-- nie działa = metoda nie jest widziana
+        Player player = playerService.getById(id);
+        Map<Integer, Season> seasonMap = seasonService.findAll()
+                .stream().collect(Collectors.toMap(Season::getId, Function.identity()));
+
+        model.addAttribute("player", player);
+        model.addAttribute("seasonMap", seasonMap);
+        return "players/career";
     }
 }

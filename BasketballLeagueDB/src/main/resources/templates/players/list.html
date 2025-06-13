@@ -19,12 +19,13 @@
             <th>Position</th>
             <th>Team</th>
             <th>Active</th>
+            <th>Career</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${#lists.isEmpty(players)}">
-            <td colspan="7">No Players Found</td>
+            <td colspan="8">No Players Found</td>
         </tr>
         <tr th:each="player : ${players}">
             <td th:text="${player.firstName}">LeBron</td>
@@ -33,6 +34,7 @@
             <td th:text="${player.position}">SF</td>
             <td th:text="${player.team?.name}">Lakers</td>
             <td th:text="${player.isActive == 'Y' ? 'Yes' : 'No'}">Yes</td>
+            <td><a th:href="@{'/players/' + ${player.id} + '/career'}">Przejdź</a></td>
             <td>
                 <a th:href="@{/players/edit/{id}(id=${player.id})}">Update</a>
                 <a th:href="@{/players/delete/{id}(id=${player.id})}">Delete</a>

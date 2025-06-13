@@ -2,6 +2,7 @@ package entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
@@ -44,7 +45,7 @@ public class Player {
     public String nationality;
 
     @Column(name = "JERSEY_NUMBER")
-    public Integer jersey_number;
+    public Integer jerseyNumber;
 
     @NotNull
     @Column(name = "HEIGHT", nullable = false)
@@ -59,8 +60,8 @@ public class Player {
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     public String isActive;
 
-    @OneToMany(mappedBy = "player")
-    public List<PlayerTeam> playerTeams;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<PlayerTeam> playerTeams = new ArrayList<>();
 
     public Player() {
     }
@@ -68,11 +69,13 @@ public class Player {
     public Player(Team team, String firstName, String lastName, LocalDate birthDate,
                   String position, String nationality, Integer jerseyNumber,
                   Integer height, Integer weight, String isActive) {
+        this.team = team;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.position = position;
         this.nationality = nationality;
+        this.jerseyNumber = jerseyNumber;
         this.height = height;
         this.weight = weight;
         this.isActive = isActive;
@@ -134,12 +137,12 @@ public class Player {
         this.nationality = nationality;
     }
 
-    public Integer getJersey_number() {
-        return jersey_number;
+    public Integer getJerseyNumber() {
+        return jerseyNumber;
     }
 
-    public void setJersey_number(Integer jersey_number) {
-        this.jersey_number = jersey_number;
+    public void setJerseyNumber(Integer jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
     }
 
     public Integer getHeight() {
@@ -185,4 +188,5 @@ public class Player {
     public void setVersion(Long version) {
         this.version = version;
     }
+
 }

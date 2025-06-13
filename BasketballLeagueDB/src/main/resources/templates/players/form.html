@@ -39,7 +39,7 @@
 
         <div>
             <label for="team">Team:</label>
-            <select id="team" th:field="*{team}" required>
+            <select id="team" th:field="*{team.id}" required>
                 <option th:each="team : ${teams}"
                         th:value="${team.id}"
                         th:text="${team.name}">
@@ -53,8 +53,8 @@
         </div>
 
         <div>
-            <label for="jersey_number">Jersey Number:</label>
-            <input type="number" id="jersey_number" th:field="*{jersey_number}" min="0" max="99" maxlength="2" oninput="this.value=this.value.slice(0,2)" required />
+            <label for="jerseyNumber">Jersey Number:</label>
+            <input type="number" id="jerseyNumber" th:field="*{jerseyNumber}" min="0" max="99" maxlength="2" oninput="this.value=this.value.slice(0,2)" required />
         </div>
 
         <div>
