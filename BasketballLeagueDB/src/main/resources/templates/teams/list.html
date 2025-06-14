@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/main-layout :: layout(~{::content}, 'All Teams')}">
+      th:replace="~{layouts/main-layout :: layout(~{::content}, 'Team Management')}">
 
 <body>
 
   <div th:fragment="content">
     <h1>Team Management</h1>
     <p>
-      <a th:href="@{/teams/new}">Add New Team</a>
+      <a th:href="@{/teams/new}" class="btn btn-primary">Add New Team</a>
     </p>
 
-    <table border="1">
+    <div th:if="${#lists.isEmpty(listTeams)}" class="alert alert-info">
+      No teams found.
+    </div>
+
+    <table class="table table-striped table-hover" th:if="${not #lists.isEmpty(listTeams)}">
       <thead>
       <tr>
-        <th>Name</th>
+        <th>Team Name</th>
         <th>City</th>
         <th>Arena</th>
-        <th>Active</th>
-        <th>Actions</th>
+        <th>Status</th>
+        <th style="width: 20%; text-align: right;">Actions</th>
       </tr>
       </thead>
       <tbody>
-        <tr th:if="${#lists.isEmpty(listTeams)}">
-          <td colspan="5">No Teams Found</td>
-        </tr>
         <tr th:each="team : ${listTeams}">
-          <td th:text="${team.name}">Lakers</td>
-          <td th:text="${team.city}">Los Angeles</td>
-          <td th:text="${team.arena}">Crypto.com Arena</td>
-          <td th:text="${team.isActive == 'Y' ? 'Yes' : 'No'}">Yes</td>
+          <td th:text="${team.name}">Team Name</td>
+          <td th:text="${team.city}">City</td>
+          <td th:text="${team.arena}">Arena</td>
           <td>
-            <a th:href="@{/teams/edit/{id}(id=${team.id})}">Update</a>
-            <a th:href="@{/teams/delete/{id}(id=${team.id})}">Delete</a>
+            <span th:if="${team.isActive == 'Y'}" class="badge bg-success">Active</span>
+            <span th:if="${team.isActive == 'N'}" class="badge bg-secondary">Inactive</span>
+          </td>
+          <td style="text-align: right;">
+            <a th:href="@{/teams/edit/{id}(id=${team.id})}" class="btn btn-sm btn-secondary">Edit</a>
+
+            <form th:action="@{/teams/delete/{id}(id=${team.id})}" method="post" style="display:inline; margin-left: 5px;">
+              <button type="submit" class="btn btn-sm btn-danger"
+                      onclick="return confirm('Are you sure you want to delete this team? This action cannot be undone.')">
+                Delete
+              </button>
+            </form>
           </td>
         </tr>
       </tbody>

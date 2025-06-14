@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -105,6 +102,8 @@ public class GameController {
         model.addAttribute("homePlayers", homePlayers);
         model.addAttribute("awayPlayers", awayPlayers);
         model.addAttribute("statsMap", statsMap);
+
+        model.addAttribute("statNames", Arrays.asList("rebounds", "assists", "steals", "blocks", "turnovers", "fouls"));
 
         return "game-stats";
     }

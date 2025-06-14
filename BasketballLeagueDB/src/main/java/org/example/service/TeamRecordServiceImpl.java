@@ -86,4 +86,8 @@ public class TeamRecordServiceImpl implements TeamRecordService {
                 ))
                 .toList();
     }
+
+    public List<TeamRecord> getRecordsBySeasonIdOrderByWinsDesc(Integer seasonId) {
+        return teamRecordRepository.findBySeasonIdOrderByWinsDesc(seasonId);
+    }
 }
