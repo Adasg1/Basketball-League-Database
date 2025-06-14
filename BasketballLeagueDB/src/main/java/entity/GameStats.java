@@ -139,6 +139,12 @@ public class GameStats {
         this.plusMinus = plusMinus;
     }
 
+    public GameStats(Game game, Player player, Team team) {
+        this.game = game;
+        this.player = player;
+        this.team = team;
+    }
+
     @Version
     @Column(name = "VERSION")
     private Long version = 0L;
