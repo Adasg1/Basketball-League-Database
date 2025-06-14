@@ -42,4 +42,10 @@ public class SeasonServiceImpl implements SeasonService {
                 .map(Season::getId)
                 .orElseThrow(() -> new RuntimeException("No season found"));
     }
+
+    @Override
+    public Season getCurrentSeason() {
+        Integer id = getCurrentSeasonId();
+        return seasonRepository.findById(id).orElseThrow(() -> new RuntimeException("Current season not found"));
+    }
 }

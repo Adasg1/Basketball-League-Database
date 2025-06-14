@@ -12,4 +12,5 @@ public interface SeasonService {
     void deleteSeason(Integer id);
     List<Season> findAll();
     Integer getCurrentSeasonId();
+    Season getCurrentSeason();
 }

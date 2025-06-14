@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Szczegóły meczu</title>
+</head>
+<body>
+<h1>Szczegóły meczu</h1>
+<p th:text="'Data: ' + ${game.gameDate}"></p>
+<p th:text="'Gospodarz: ' + ${game.homeTeam.teamName}"></p>
+<p th:text="'Gość: ' + ${game.awayTeam.teamName}"></p>
+<p th:text="'Wynik: ' + ${game.homeScore} + ' : ' + ${game.awayScore}"></p>
+<p th:text="'Status: ' + ${game.status}"></p>
+</body>
+</html>

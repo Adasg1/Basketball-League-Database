@@ -18,14 +18,14 @@ public class Season {
 
     @NotNull
     @Column(name = "SEASON_YEAR", nullable = false)
-    public Integer seasonYear;
+    private Integer seasonYear;
 
     @NotNull
     @Column(name = "START_DATE", nullable = false, unique = true)
-    public LocalDate startDate;
+    private LocalDate startDate;
 
     @Column(name = "END_DATE")
-    public LocalDate endDate;
+    private LocalDate endDate;
 
     @OneToMany(mappedBy = "season")
     public List<TeamRecord> teamRecords;
