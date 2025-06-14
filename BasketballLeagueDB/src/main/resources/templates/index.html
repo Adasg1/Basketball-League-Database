@@ -4,43 +4,60 @@
 
 <body>
 
-<div th:fragment="content">
-  <h1>Welcome to the Basketball League Database</h1>
+  <div th:fragment="content">
+    <h1>Welcome to the Basketball League Database</h1>
 
-  <h2>Recent Games</h2>
-  <p>
-    <a th:href="@{/games/add}">
-      <button>Add New Game</button>
-    </a>
-  </p>
-  <table>
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Match</th>
-      <th>Score</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="game : ${games}">
-      <td th:text="${#temporals.format(game.gameDate, 'yyyy-MM-dd HH:mm')}">2025-01-01</td>
-      <td>
-        <a th:href="@{/games/{id}(id=${game.id})}">
-          <span th:text="${game.homeTeam.name}">Home</span> vs
-          <span th:text="${game.awayTeam.name}">Away</span>
-        </a>
-      </td>
-      <td th:text="${game.homeScore + ' : ' + game.awayScore}">95 : 88</td>
-      <td>
-        <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post" style="display:inline;">
-          <button type="submit" onclick="return confirm('Na pewno usunąć ten mecz?')">Delete</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+    <h2>Recent Games</h2>
+    <p>
+      <a th:href="@{/games/add}">
+        <button>Add New Game</button>
+      </a>
+    </p>
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Match</th>
+        <th>Score</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr th:each="game : ${games}">
+          <td th:text="${game.gameDate != null ? #temporals.format(game.gameDate, 'yyyy-MM-dd HH:mm') : 'N/A'}">2025-01-01</td>
+          <td>
+            <div>
+              <a th:href="@{/games/stats/{id}(id=${game.id})}">
+                <span th:text="${game.homeTeam.name}">Home</span> vs
+                <span th:text="${game.awayTeam.name}">Away</span>
+              </a>
+            </div>
+          </td>
+          <td th:text="${game.homeScore + ' : ' + game.awayScore}">95 : 88</td>
+          <td>
+            <span th:if="${game.status == 'S'}">Scheduled</span>
+            <span th:if="${game.status == 'A'}" style="color: green; font-weight: bold;">Active</span>
+            <span th:if="${game.status == 'F'}">Finished</span>
+          </td>
+          <td>
+
+            <form th:if="${game.status == 'S'}" th:action="@{/games/start/{id}(id=${game.id})}" method="post" style="display:inline;">
+              <button type="submit">Start</button>
+            </form>
+
+            <form th:if="${game.status == 'A'}" th:action="@{/games/finish/{id}(id=${game.id})}" method="post" style="display:inline;">
+              <button type="submit">Finish</button>
+            </form>
+
+            <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post" style="display:inline;">
+              <button type="submit" onclick="return confirm('Na pewno usunąć ten mecz?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </body>
 </html>

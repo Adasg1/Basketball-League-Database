@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: layout(~{::content}, 'Match Statistics')}">
+
+<body>
+  <div th:fragment="content">
+    <div class="game-header" style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px;">
+      <h1 th:text="${game.homeTeam.name + ' vs ' + game.awayTeam.name}">Home vs Away</h1>
+      <h2 th:text="${game.homeScore + ' - ' + game.awayScore}" style="font-size: 2.5em; margin: 10px 0;">0 - 0</h2>
+      <p>Status:
+        <span th:if="${game.status == 'S'}">Scheduled</span>
+        <span th:if="${game.status == 'A'}" style="color: green; font-weight: bold;">Active</span>
+        <span th:if="${game.status == 'F'}">Finished</span>
+      </p>
+    </div>
+
+    <div class="teams-container" style="display: flex; flex-direction: column; align-items: center; gap: 40px;">
+      <!-- Home Team Panel -->
+      <div class="team-panel" style="width: 100%; max-width: 1200px;">
+        <h3 th:text="${game.homeTeam.name}" style="text-align: center;">Home</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+            <thead>
+            <tr style="border-bottom: 1px solid #ddd;">
+              <th>Player</th>
+              <th>Points</th>
+              <th>Rebounds</th>
+              <th>Assists</th>
+              <th>Steals</th>
+              <th>Blocks</th>
+              <th>Turnovers</th>
+              <th>Fouls</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr th:each="player : ${homePlayers}" style="border-bottom: 1px solid #eee;">
+                <td>
+                  <!-- Format: First letter of first name + dot + space + last name -->
+                  <div th:text="${#strings.substring(player.firstName,0,1) + '. ' + player.lastName}">J. Smith</div>
+                  <div style="font-size: 0.8em; color: #555; white-space: nowrap;">
+                    FG: <span th:text="${statsMap.get(player.id)?.fieldGoalsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.fieldGoalsAttempted ?: 0}">0</span>,
+                    3P: <span th:text="${statsMap.get(player.id)?.threePointsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.threePointsAttempted ?: 0}">0</span>,
+                    FT: <span th:text="${statsMap.get(player.id)?.freeThrowsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.freeThrowsAttempted ?: 0}">0</span>
+                  </div>
+                </td>
+                <!-- Statistics columns and buttons -->
+                <td>
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.points ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}">
+                      <div style="display: flex; gap: 4px;">
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="1"/><button type="submit">+1</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="2"/><button type="submit">+2</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="3"/><button type="submit">+3</button></form>
+                      </div>
+                      <div style="display: flex; gap: 4px;">
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="ft_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed FT</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="2p_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed FG</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="3p_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed 3P</button></form>
+                      </div>
+                    </th:block>
+                  </div>
+                </td>
+                <!-- Rebounds -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="rebounds"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.rebounds ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="rebounds"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Assists -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="assists"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.assists ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="assists"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Steals -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="steals"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.steals ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="steals"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Blocks -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="blocks"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.blocks ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="blocks"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Turnovers -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="turnovers"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.turnovers ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="turnovers"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Fouls -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="fouls"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.fouls ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="fouls"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Away Team Panel -->
+      <div class="team-panel" style="width: 100%; max-width: 1000px;">
+        <h3 th:text="${game.awayTeam.name}" style="text-align: center;">Away</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+            <thead>
+            <tr style="border-bottom: 1px solid #ddd;">
+              <th>Player</th>
+              <th>Points</th>
+              <th>Rebounds</th>
+              <th>Assists</th>
+              <th>Steals</th>
+              <th>Blocks</th>
+              <th>Turnovers</th>
+              <th>Fouls</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr th:each="player : ${awayPlayers}" style="border-bottom: 1px solid #eee;">
+                <td>
+                  <!-- Format: First letter of first name + dot + space + last name -->
+                  <div th:text="${#strings.substring(player.firstName,0,1) + '. ' + player.lastName}">J. Smith</div>
+                  <div style="font-size: 0.8em; color: #555; white-space: nowrap;">
+                    FG: <span th:text="${statsMap.get(player.id)?.fieldGoalsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.fieldGoalsAttempted ?: 0}">0</span>,
+                    3P: <span th:text="${statsMap.get(player.id)?.threePointsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.threePointsAttempted ?: 0}">0</span>,
+                    FT: <span th:text="${statsMap.get(player.id)?.freeThrowsMade ?: 0}">0</span>/<span th:text="${statsMap.get(player.id)?.freeThrowsAttempted ?: 0}">0</span>
+                  </div>
+                </td>
+                <!-- Statistics columns and buttons -->
+                <td>
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.points ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}">
+                      <div style="display: flex; gap: 4px;">
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="1"/><button type="submit">+1</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="2"/><button type="submit">+2</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="3"/><button type="submit">+3</button></form>
+                      </div>
+                      <div style="display: flex; gap: 4px;">
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="ft_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed FT</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="2p_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed FG</button></form>
+                        <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="3p_miss"/><input type="hidden" name="change" value="1"/><button type="submit">Missed 3P</button></form>
+                      </div>
+                    </th:block>
+                  </div>
+                </td>
+                <!-- Rebounds -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="rebounds"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.rebounds ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="rebounds"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Assists -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="assists"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.assists ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="assists"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Steals -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="steals"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.steals ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="steals"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Blocks -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="blocks"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.blocks ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="blocks"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Turnovers -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="turnovers"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.turnovers ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="turnovers"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+                <!-- Fouls -->
+                <td>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="fouls"/><input type="hidden" name="change" value="-1"/><button type="submit">-</button></form></th:block>
+                    <span style="font-weight: bold; font-size: 1.2em;" th:text="${statsMap.get(player.id)?.fouls ?: 0}">0</span>
+                    <th:block th:if="${game.status == 'A'}"><form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="fouls"/><input type="hidden" name="change" value="1"/><button type="submit">+</button></form></th:block>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
