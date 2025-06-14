@@ -8,7 +8,9 @@ import org.example.repository.GameStatsRepository;
 import org.example.repository.PlayerRepository;
 import org.example.service.GameService;
 import org.example.service.SeasonService;
+import org.example.service.TeamRecordService;
 import org.example.service.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,21 +28,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/games")
 public class GameController {
 
-    private final GameService gameService;
-    private final TeamService teamService;
-    private final SeasonService seasonService;
-    private final PlayerRepository playerRepository;
-    private final GameStatsRepository gameStatsRepository;
-
-    public GameController(GameService gameService, TeamService teamService,
-                          SeasonService seasonService, PlayerRepository playerRepository,
-                          GameStatsRepository gameStatsRepository) {
-        this.gameService = gameService;
-        this.teamService = teamService;
-        this.seasonService = seasonService;
-        this.playerRepository = playerRepository;
-        this.gameStatsRepository = gameStatsRepository;
-    }
+    @Autowired
+    private GameService gameService;
+    @Autowired
+    private TeamService teamService;
+    @Autowired
+    private SeasonService seasonService;
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private GameStatsRepository gameStatsRepository;
+    @Autowired
+    private TeamRecordService teamRecordService;
 
     @GetMapping("/{id}")
     public String getGameDetails(@PathVariable Integer id, Model model) {
@@ -133,6 +132,7 @@ public class GameController {
     @PostMapping("/finish/{id}")
     public String finishGame(@PathVariable Integer id) {
         gameService.finishGame(id);
+        teamRecordService.updateRecordsAfterGame(id);
         return "redirect:/";
     }
 

@@ -71,6 +71,38 @@ public class TeamRecord {
         this.awayWins = awayWins;
         this.awayLosses = awayLosses;
     }
+    public void incrementWins() { this.wins++; }
+
+    public void incrementLosses() { this.losses++; }
+
+    public void incrementHomeWins() { this.homeWins++; }
+
+    public void incrementHomeLosses() { this.homeLosses++; }
+
+    public void incrementAwayWins() { this.awayWins++; }
+
+    public void incrementAwayLosses() { this.awayLosses++; }
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public Team getTeam() { return team; }
+    public void setTeam(Team team) { this.team = team; }
+    public Season getSeason() { return season; }
+    public void setSeason(Season season) { this.season = season; }
+    public Integer getWins() { return wins; }
+    public void setWins(Integer wins) { this.wins = wins; }
+    public Integer getLosses() { return losses; }
+    public void setLosses(Integer losses) { this.losses = losses; }
+    public Integer getHomeWins() { return homeWins; }
+    public void setHomeWins(Integer homeWins) { this.homeWins = homeWins; }
+    public Integer getHomeLosses() { return homeLosses; }
+    public void setHomeLosses(Integer homeLosses) { this.homeLosses = homeLosses; }
+    public Integer getAwayWins() { return awayWins; }
+    public void setAwayWins(Integer awayWins) { this.awayWins = awayWins; }
+    public Integer getAwayLosses() { return awayLosses; }
+    public void setAwayLosses(Integer awayLosses) { this.awayLosses = awayLosses; }
+
+
 
     @Version
     @Column(name = "VERSION")

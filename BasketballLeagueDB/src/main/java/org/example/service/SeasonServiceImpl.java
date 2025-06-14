@@ -1,7 +1,12 @@
 package org.example.service;
 
 import entity.Season;
+import entity.Team;
+import entity.TeamRecord;
+import jakarta.transaction.Transactional;
 import org.example.repository.SeasonRepository;
+import org.example.repository.TeamRecordRepository;
+import org.example.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,6 +16,12 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Autowired
     private SeasonRepository seasonRepository;
+
+    @Autowired
+    private TeamRecordRepository teamRecordRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Override
     public List<Season> getAllSeasons() {
@@ -24,8 +35,19 @@ public class SeasonServiceImpl implements SeasonService {
     }
 
     @Override
+    @Transactional
     public void saveSeason(Season season) {
-        seasonRepository.save(season);
+        // 1. Zapisz sezon i uzyskaj jego ID
+        Season savedSeason = seasonRepository.save(season);
+
+        // 2. Pobierz aktywne drużyny
+        List<Team> activeTeams = teamRepository.findByIsActive("Y");
+
+        // 3. Utwórz rekordy drużyn
+        for (Team team : activeTeams) {
+            TeamRecord record = new TeamRecord(team, savedSeason, 0, 0, 0, 0, 0, 0);
+            teamRecordRepository.save(record);
+        }
     }
 
     @Override
