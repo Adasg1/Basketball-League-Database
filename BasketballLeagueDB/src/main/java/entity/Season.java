@@ -17,14 +17,15 @@ public class Season {
     public Integer id;
 
     @NotNull
-    @Column(name = "SEASON_YEAR", length = 16, nullable = false)
-    public String seasonYear;
+    @Column(name = "SEASON_YEAR", nullable = false)
+    private Integer seasonYear;
 
-    @Column(name = "START_DATE")
-    public LocalDate startDate;
+    @NotNull
+    @Column(name = "START_DATE", nullable = false, unique = true)
+    private LocalDate startDate;
 
     @Column(name = "END_DATE")
-    public LocalDate endDate;
+    private LocalDate endDate;
 
     @OneToMany(mappedBy = "season")
     public List<TeamRecord> teamRecords;
@@ -32,9 +33,53 @@ public class Season {
     public Season() {
     }
 
-    public Season(String seasonYear, LocalDate startDate, LocalDate endDate) {
+    public Season(Integer seasonYear, LocalDate startDate, LocalDate endDate) {
         this.seasonYear = seasonYear;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getSeasonYear() {
+        return seasonYear;
+    }
+
+    public void setSeasonYear(Integer seasonYear) {
+        this.seasonYear = seasonYear;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

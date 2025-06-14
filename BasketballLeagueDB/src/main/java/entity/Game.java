@@ -1,10 +1,11 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,49 +21,58 @@ public class Game {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "SEASON_ID", nullable = false)
-    public Season season;
+    private Season season;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "HOME_TEAM_ID", nullable = false)
-    public Team homeTeam;
+    private Team homeTeam;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "AWAY_TEAM_ID", nullable = false)
-    public Team awayTeam;
+    private Team awayTeam;
 
     @ManyToOne
     @JoinColumn(name = "WINNER_TEAM_ID")
-    public Team winnerTeam;
+    private Team winnerTeam;
 
     @Column(name = "GAME_DATE")
-    public LocalDate gameDate;
+    private LocalDateTime gameDate;
 
-    @Column(name = "HOME_SCORE")
-    public Integer homeScore;
+    @Min(0)
+    @NotNull
+    @Column(name = "HOME_SCORE", nullable = false)
+    private Integer homeScore = 0;
 
-    @Column(name = "AWAY_SCORE")
-    public Integer awayScore;
+    @Min(0)
+    @NotNull
+    @Column(name = "AWAY_SCORE", nullable = false)
+    private Integer awayScore = 0;
 
+    @NotNull
     @Pattern(regexp = "[SAF]") // scheduled, active, finished
-    @Column(name = "STATUS", length = 1)
-    public String status;
+    @Column(name = "STATUS", length = 1, nullable = false)
+    private String status = "S";
 
-    @Column(name = "CURRENT_PERIOD")
-    public Integer currentPeriod;
+    @Min(0)
+    @NotNull
+    @Column(name = "CURRENT_PERIOD", nullable = false)
+    private Integer currentPeriod = 1;
 
-    @Column(name = "TIME_REMAINING")
-    public Double timeRemaining;
+    @Min(0)
+    @NotNull
+    @Column(name = "TIME_REMAINING", nullable = false)
+    private Double timeRemaining = 600.0;
 
     @OneToMany(mappedBy = "game")
-    public List<GameStats> gameStats;
+    private List<GameStats> gameStats;
 
     public Game() {
     }
 
     public Game(Season season, Team homeTeam, Team awayTeam, Team winnerTeam,
-                LocalDate gameDate, Integer homeScore, Integer awayScore,
+                LocalDateTime gameDate, Integer homeScore, Integer awayScore,
                 String status, Integer currentPeriod, Double timeRemaining) {
         this.season = season;
         this.homeTeam = homeTeam;
@@ -75,6 +85,43 @@ public class Game {
         this.currentPeriod = currentPeriod;
         this.timeRemaining = timeRemaining;
     }
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public Season getSeason() { return season; }
+    public void setSeason(Season season) { this.season = season; }
+
+    public Team getHomeTeam() { return homeTeam; }
+    public void setHomeTeam(Team homeTeam) { this.homeTeam = homeTeam; }
+
+    public Team getAwayTeam() { return awayTeam; }
+    public void setAwayTeam(Team awayTeam) { this.awayTeam = awayTeam; }
+
+    public Team getWinnerTeam() { return winnerTeam; }
+    public void setWinnerTeam(Team winnerTeam) { this.winnerTeam = winnerTeam; }
+
+    public LocalDateTime getGameDate() { return gameDate; }
+    public void setGameDate(LocalDateTime gameDate) { this.gameDate = gameDate; }
+
+    public Integer getHomeScore() { return homeScore; }
+    public void setHomeScore(Integer homeScore) { this.homeScore = homeScore; }
+
+    public Integer getAwayScore() { return awayScore; }
+    public void setAwayScore(Integer awayScore) { this.awayScore = awayScore; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public Integer getCurrentPeriod() { return currentPeriod; }
+    public void setCurrentPeriod(Integer currentPeriod) { this.currentPeriod = currentPeriod; }
+
+    public Double getTimeRemaining() { return timeRemaining; }
+    public void setTimeRemaining(Double timeRemaining) { this.timeRemaining = timeRemaining; }
+
+    public List<GameStats> getGameStats() { return gameStats; }
+    public void setGameStats(List<GameStats> gameStats) { this.gameStats = gameStats; }
+
 
     @Version
     @Column(name = "VERSION")

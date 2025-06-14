@@ -2,6 +2,7 @@ package entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
@@ -44,7 +45,7 @@ public class Player {
     public String nationality;
 
     @Column(name = "JERSEY_NUMBER")
-    public Integer jersey_number;
+    public Integer jerseyNumber;
 
     @NotNull
     @Column(name = "HEIGHT", nullable = false)
@@ -59,8 +60,8 @@ public class Player {
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     public String isActive;
 
-    @OneToMany(mappedBy = "player")
-    public List<PlayerTeam> playerTeams;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<PlayerTeam> playerTeams = new ArrayList<>();
 
     public Player() {
     }
@@ -74,10 +75,106 @@ public class Player {
         this.birthDate = birthDate;
         this.position = position;
         this.nationality = nationality;
-        this.jersey_number = jerseyNumber;
+        this.jerseyNumber = jerseyNumber;
         this.height = height;
         this.weight = weight;
         this.isActive = isActive;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public Integer getJerseyNumber() {
+        return jerseyNumber;
+    }
+
+    public void setJerseyNumber(Integer jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
+    public List<PlayerTeam> getPlayerTeams() {
+        return playerTeams;
+    }
+
+    public void setPlayerTeams(List<PlayerTeam> playerTeams) {
+        this.playerTeams = playerTeams;
     }
 
     @Version
@@ -91,4 +188,5 @@ public class Player {
     public void setVersion(Long version) {
         this.version = version;
     }
+
 }

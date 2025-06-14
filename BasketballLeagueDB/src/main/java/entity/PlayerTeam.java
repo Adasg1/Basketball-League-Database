@@ -51,4 +51,30 @@ public class PlayerTeam {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public Integer getId() { return id; }
+    public Player getPlayer() { return player; }
+    public void setPlayer(Player player) { this.player = player; }
+    public Team getTeam() { return team; }
+    public void setTeam(Team team) { this.team = team; }
+    public Integer getJerseyNumber() { return jerseyNumber; }
+    public void setJerseyNumber(Integer jerseyNumber) { this.jerseyNumber = jerseyNumber; }
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    public Integer getSeasonId() { return seasonId; }
+    public void setSeasonId(Integer seasonId) { this.seasonId = seasonId; }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }
