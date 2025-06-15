@@ -73,17 +73,11 @@ public class TeamRecord {
         this.awayLosses = awayLosses;
     }
     public void incrementWins() { this.wins++; }
-
     public void incrementLosses() { this.losses++; }
-
     public void incrementHomeWins() { this.homeWins++; }
-
     public void incrementHomeLosses() { this.homeLosses++; }
-
     public void incrementAwayWins() { this.awayWins++; }
-
     public void incrementAwayLosses() { this.awayLosses++; }
-
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     public Team getTeam() { return team; }
@@ -102,8 +96,6 @@ public class TeamRecord {
     public void setAwayWins(Integer awayWins) { this.awayWins = awayWins; }
     public Integer getAwayLosses() { return awayLosses; }
     public void setAwayLosses(Integer awayLosses) { this.awayLosses = awayLosses; }
-
-
 
     @Version
     @Column(name = "VERSION")

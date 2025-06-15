@@ -17,10 +17,8 @@ public class TeamRecordServiceImpl implements TeamRecordService {
 
     @Autowired
     private TeamRecordRepository teamRecordRepository;
-
     @Autowired
     private GameRepository gameRepository;
-
     @Autowired
     private SeasonService seasonService;
 
@@ -66,25 +64,6 @@ public class TeamRecordServiceImpl implements TeamRecordService {
         int wins = r.getWins();
         int losses = r.getLosses();
         return (wins + losses) == 0 ? 0 : (double) wins / (wins + losses);
-    }
-
-    @Override
-    public List<TeamRecord> getAllTeamRecords() {
-        return teamRecordRepository.findAll().stream()
-                .sorted((r1, r2) -> Double.compare(
-                        getWinPercentage(r2), getWinPercentage(r1)
-                ))
-                .toList();
-    }
-
-    @Override
-    public List<TeamRecord> getRecordsBySeasonId(Integer seasonId) {
-        Season season = seasonService.getSeasonById(seasonId);
-        return teamRecordRepository.findBySeason(season).stream()
-                .sorted((r1, r2) -> Double.compare(
-                        getWinPercentage(r2), getWinPercentage(r1)
-                ))
-                .toList();
     }
 
     public List<TeamRecord> getRecordsBySeasonIdOrderByWinsDesc(Integer seasonId) {

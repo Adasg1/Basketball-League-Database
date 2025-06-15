@@ -20,10 +20,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     private PlayerRepository playerRepository;
-
     @Autowired
     private PlayerTeamRepository playerTeamRepository;
-
     @Autowired
     private SeasonService seasonService;
 

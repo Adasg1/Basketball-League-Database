@@ -39,14 +39,14 @@ public class PlayerController {
     public String listPlayers(Model model) {
         List<Player> players = playerService.getAllPlayers();
         model.addAttribute("players", players);
-        return "players/list"; // nazwa widoku (np. players/list.html)
+        return "players/list";
     }
 
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("player", new Player());
         model.addAttribute("teams", teamService.getAllTeams());
-        return "players/form"; // formularz dodawania/edycji
+        return "players/form";
     }
 
     @PostMapping("/save")

@@ -2,7 +2,6 @@ package org.example.service;
 
 import entity.Season;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface SeasonService {
@@ -12,5 +11,4 @@ public interface SeasonService {
     void deleteSeason(Integer id);
     List<Season> findAll();
     Integer getCurrentSeasonId();
-    Season getCurrentSeason();
 }

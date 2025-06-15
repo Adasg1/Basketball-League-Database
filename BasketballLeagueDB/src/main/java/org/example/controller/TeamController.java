@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/teams")
 public class TeamController {
 
-    // pola final, bez @autowired
     private final TeamService teamService;
     private final TeamRecordService teamRecordService;
     private final SeasonService seasonService;
@@ -28,7 +27,6 @@ public class TeamController {
         this.seasonService = seasonService;
     }
 
-    // crud dla team
     @GetMapping
     public String listTeams(Model model) {
         model.addAttribute("listTeams", teamService.getAllTeams());
@@ -56,7 +54,6 @@ public class TeamController {
         return "redirect:/teams";
     }
 
-    // post do usuwania, bezpieczniej
     @PostMapping("/delete/{id}")
     public String deleteTeam(@PathVariable Integer id) {
         teamService.deleteTeam(id);
@@ -76,10 +73,10 @@ public class TeamController {
 
         Integer selectedSeasonId = (seasonId != null)
                 ? seasonId
-                : seasonService.getCurrentSeasonId(); // zakladamy ze serwis to ma
+                : seasonService.getCurrentSeasonId();
 
         List<TeamRecord> teamRecords = (selectedSeasonId != null)
-                ? teamRecordService.getRecordsBySeasonIdOrderByWinsDesc(selectedSeasonId) // nowa, posortowana metoda
+                ? teamRecordService.getRecordsBySeasonIdOrderByWinsDesc(selectedSeasonId)
                 : List.of();
 
         model.addAttribute("teamRecords", teamRecords);
@@ -94,6 +91,6 @@ public class TeamController {
 
         model.addAttribute("team", team);
         model.addAttribute("players", players);
-        return "teams/players"; // nowy szablon HTML
+        return "teams/players";
     }
 }

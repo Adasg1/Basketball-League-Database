@@ -2,6 +2,7 @@ package org.example.service;
 
 import entity.*;
 import org.example.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,17 +12,14 @@ import java.util.Optional;
 @Service
 public class GameServiceImpl implements GameService {
 
-    private final GameRepository gameRepository;
-    private final PlayerRepository playerRepository;
-    private final GameStatsRepository gameStatsRepository;
-    private final TeamRecordRepository teamRecordRepository;
-
-    public GameServiceImpl(GameRepository gameRepository,PlayerRepository playerRepository,GameStatsRepository gameStatsRepository,TeamRecordRepository teamRecordRepository) {
-        this.gameRepository = gameRepository;
-        this.playerRepository = playerRepository;
-        this.gameStatsRepository = gameStatsRepository;
-        this.teamRecordRepository = teamRecordRepository;
-    }
+    @Autowired
+    private GameRepository gameRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private GameStatsRepository gameStatsRepository;
+    @Autowired
+    private TeamRecordRepository teamRecordRepository;
 
     @Override
     public List<Game> getAllGames() {

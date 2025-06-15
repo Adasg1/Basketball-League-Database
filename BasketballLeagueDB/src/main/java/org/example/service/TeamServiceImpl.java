@@ -19,9 +19,6 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override
     public List<Team> getAllTeams() {
         return teamRepository.findAll();

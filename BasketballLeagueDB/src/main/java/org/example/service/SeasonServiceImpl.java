@@ -14,16 +14,12 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Autowired
     private SeasonRepository seasonRepository;
-
     @Autowired
     private TeamRecordRepository teamRecordRepository;
-
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private PlayerRepository playerRepository;
-
     @Autowired
     private PlayerTeamRepository playerTeamRepository;
 
@@ -75,11 +71,5 @@ public class SeasonServiceImpl implements SeasonService {
         return seasonRepository.findTopByOrderBySeasonYearDesc()
                 .map(Season::getId)
                 .orElseThrow(() -> new RuntimeException("No season found"));
-    }
-
-    @Override
-    public Season getCurrentSeason() {
-        Integer id = getCurrentSeasonId();
-        return seasonRepository.findById(id).orElseThrow(() -> new RuntimeException("Current season not found"));
     }
 }
