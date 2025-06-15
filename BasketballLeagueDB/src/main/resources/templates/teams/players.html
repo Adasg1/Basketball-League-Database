@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: layout(~{::content}, 'Players of Team')}">
+
+<body>
+<div th:fragment="content">
+    <h2 th:text="'Players of ' + ${team.name}">Players of Team</h2>
+    <a th:href="@{/teams}" class="btn btn-secondary">Back to Teams</a>
+
+    <table class="table table-striped mt-3" th:if="${not #lists.isEmpty(players)}">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Position</th>
+            <th>Nationality</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="player : ${players}">
+            <td th:text="${player.firstName}">First</td>
+            <td th:text="${player.lastName}">Last</td>
+            <td th:text="${player.position}">Position</td>
+            <td th:text="${player.nationality}">Nationality</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(players)}" class="alert alert-info mt-3">
+        No players assigned to this team.
+    </div>
+</div>
+</body>
+</html>

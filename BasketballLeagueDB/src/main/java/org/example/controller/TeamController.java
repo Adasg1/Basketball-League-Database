@@ -1,40 +1,40 @@
 package org.example.controller;
 
+import entity.Player;
 import entity.Season;
 import entity.Team;
 import entity.TeamRecord;
 import org.example.service.SeasonService;
 import org.example.service.TeamRecordService;
 import org.example.service.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
 @RequestMapping("/teams")
 public class TeamController {
 
-    @Autowired
-    private TeamService teamService;
+    // pola final, bez @autowired
+    private final TeamService teamService;
+    private final TeamRecordService teamRecordService;
+    private final SeasonService seasonService;
 
-    @Autowired
-    private TeamRecordService teamRecordService;
+    public TeamController(TeamService teamService, TeamRecordService teamRecordService, SeasonService seasonService) {
+        this.teamService = teamService;
+        this.teamRecordService = teamRecordService;
+        this.seasonService = seasonService;
+    }
 
-    @Autowired
-    private SeasonService seasonService;
-
-    // READ (List All)
+    // crud dla team
     @GetMapping
     public String listTeams(Model model) {
         model.addAttribute("listTeams", teamService.getAllTeams());
         return "teams/list";
     }
 
-    // CREATE (Show Form)
     @GetMapping("/new")
     public String showNewTeamForm(Model model) {
         model.addAttribute("team", new Team());
@@ -42,7 +42,6 @@ public class TeamController {
         return "teams/form";
     }
 
-    // UPDATE (Show Form)
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Integer id, Model model) {
         Team team = teamService.getTeamById(id);
@@ -51,15 +50,14 @@ public class TeamController {
         return "teams/form";
     }
 
-    // CREATE and UPDATE (Process Form)
     @PostMapping("/save")
     public String saveTeam(@ModelAttribute("team") Team team) {
         teamService.saveTeam(team);
         return "redirect:/teams";
     }
 
-    // DELETE
-    @GetMapping("/delete/{id}")
+    // post do usuwania, bezpieczniej
+    @PostMapping("/delete/{id}")
     public String deleteTeam(@PathVariable Integer id) {
         teamService.deleteTeam(id);
         return "redirect:/teams";
@@ -70,20 +68,32 @@ public class TeamController {
         List<Season> allSeasons = seasonService.getAllSeasons();
         model.addAttribute("seasons", allSeasons);
 
-        if (seasonId == null && !allSeasons.isEmpty()) {
-            // Znajdź sezon o najwyższym roku
-            seasonId = allSeasons.stream()
-                    .max(Comparator.comparing(Season::getSeasonYear))
-                    .map(Season::getId)
-                    .orElse(null);
+        if (allSeasons.isEmpty()) {
+            model.addAttribute("teamRecords", List.of());
+            model.addAttribute("selectedSeasonId", null);
+            return "teams/standings";
         }
 
-        List<TeamRecord> teamRecords = (seasonId != null)
-                ? teamRecordService.getRecordsBySeasonId(seasonId)
-                : List.of(); // pusto jeśli sezonów brak
+        Integer selectedSeasonId = (seasonId != null)
+                ? seasonId
+                : seasonService.getCurrentSeasonId(); // zakladamy ze serwis to ma
+
+        List<TeamRecord> teamRecords = (selectedSeasonId != null)
+                ? teamRecordService.getRecordsBySeasonIdOrderByWinsDesc(selectedSeasonId) // nowa, posortowana metoda
+                : List.of();
 
         model.addAttribute("teamRecords", teamRecords);
-        model.addAttribute("selectedSeasonId", seasonId);
+        model.addAttribute("selectedSeasonId", selectedSeasonId);
         return "teams/standings";
+    }
+
+    @GetMapping("/{id}/players")
+    public String viewTeamPlayers(@PathVariable Integer id, Model model) {
+        Team team = teamService.getTeamById(id);
+        List<Player> players = team.getPlayers();
+
+        model.addAttribute("team", team);
+        model.addAttribute("players", players);
+        return "teams/players"; // nowy szablon HTML
     }
 }

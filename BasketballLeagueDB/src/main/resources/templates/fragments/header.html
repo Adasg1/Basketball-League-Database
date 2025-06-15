@@ -3,14 +3,35 @@
 <body>
 
   <header th:fragment="header">
-    <nav>
-      <a th:href="@{/}">Home</a> |
-      <a th:href="@{/teams}">Teams</a> |
-      <a th:href="@{/players}">Players</a> |
-      <a th:href="@{/seasons}">Seasons</a> |
-      <a th:href="@{/teams/standings}">Standings</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Basketball League DB</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/teams}">Teams</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/players}">Players</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/seasons}">Seasons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/teams/standings}">Standings</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
-    <hr/>
   </header>
 
 </body>

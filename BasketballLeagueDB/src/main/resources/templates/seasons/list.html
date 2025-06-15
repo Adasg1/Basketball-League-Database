@@ -1,39 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layouts/main-layout :: layout(~{::content}, 'Seasons Management')}">
-
 <body>
-<div th:fragment="content">
-    <h1>Season Management</h1>
-
-    <p>
-        <a th:href="@{/seasons/new}">Add New Season</a>
-    </p>
-
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Season</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${#lists.isEmpty(listSeasons)}">
-            <td colspan="4">No Seasons Found</td>
-        </tr>
-        <tr th:each="season : ${listSeasons}">
-            <td th:text="${season.seasonYear + '/' + (season.seasonYear + 1)}">2024/2025</td>
-            <td th:text="${season.startDate}">2024-10-01</td>
-            <td th:text="${season.endDate}">2025-06-01</td>
-            <td>
-                <a th:href="@{/seasons/edit/{id}(id=${season.id})}">Edit</a>
-                <a th:href="@{/seasons/delete/{id}(id=${season.id})}">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <div th:fragment="content">
+        <h1>Season Management</h1>
+        <p><a th:href="@{/seasons/new}" class="btn btn-primary">Add New Season</a></p>
+        <table class="table table-striped table-hover">
+            <thead><tr><th>Season</th><th>Start Date</th><th>End Date</th><th class="text-end">Actions</th></tr></thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(listSeasons)}"><td colspan="4">No Seasons Found</td></tr>
+                <tr th:each="season : ${listSeasons}">
+                    <td th:text="${season.seasonYear}">2024</td>
+                    <td th:text="${season.startDate}">2024-10-01</td>
+                    <td th:text="${season.endDate}">2025-06-01</td>
+                    <td class="text-end">
+                        <a th:href="@{/seasons/edit/{id}(id=${season.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                        <form th:action="@{/seasons/delete/{id}(id=${season.id})}" method="post" style="display:inline-block;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

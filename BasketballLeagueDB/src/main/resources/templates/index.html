@@ -3,61 +3,57 @@
       th:replace="~{layouts/main-layout :: layout(~{::content}, 'Welcome!')}">
 
 <body>
-
   <div th:fragment="content">
     <h1>Welcome to the Basketball League Database</h1>
-
     <h2>Recent Games</h2>
     <p>
-      <a th:href="@{/games/add}">
-        <button>Add New Game</button>
+      <a th:href="@{/games/add}" class="btn btn-primary my-3">
+        Add New Game
       </a>
     </p>
-    <table>
-      <thead>
+
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
       <tr>
         <th>Date</th>
         <th>Match</th>
-        <th>Score</th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th class="text-center">Score</th>
+        <th class="text-center">Status</th>
+        <th class="text-center" style="width: 10%;">Actions</th>
       </tr>
       </thead>
       <tbody>
         <tr th:each="game : ${games}">
           <td th:text="${game.gameDate != null ? #temporals.format(game.gameDate, 'yyyy-MM-dd HH:mm') : 'N/A'}">2025-01-01</td>
           <td>
-            <div>
-              <a th:href="@{/games/stats/{id}(id=${game.id})}">
-                <span th:text="${game.homeTeam.name}">Home</span> vs
-                <span th:text="${game.awayTeam.name}">Away</span>
-              </a>
-            </div>
+            <a th:href="@{/games/stats/{id}(id=${game.id})}" class="text-decoration-none text-dark fw-bold">
+              <span th:text="${game.homeTeam.name}">Home</span> vs
+              <span th:text="${game.awayTeam.name}">Away</span>
+            </a>
           </td>
-          <td th:text="${game.homeScore + ' : ' + game.awayScore}">95 : 88</td>
-          <td>
-            <span th:if="${game.status == 'S'}">Scheduled</span>
-            <span th:if="${game.status == 'A'}" style="color: green; font-weight: bold;">Active</span>
-            <span th:if="${game.status == 'F'}">Finished</span>
+          <td class="text-center" th:text="${game.homeScore + ' : ' + game.awayScore}">95 : 88</td>
+          <td class="text-center">
+            <span th:if="${game.status == 'S'}" class="badge bg-secondary">Scheduled</span>
+            <span th:if="${game.status == 'A'}" class="badge bg-success">Active</span>
+            <span th:if="${game.status == 'F'}" class="badge bg-primary">Finished</span>
           </td>
-          <td>
 
-            <form th:if="${game.status == 'S'}" th:action="@{/games/start/{id}(id=${game.id})}" method="post" style="display:inline;">
-              <button type="submit">Start</button>
+          <td class="d-flex justify-content-end align-items-center gap-2">
+            <form th:if="${game.status == 'S'}" th:action="@{/games/start/{id}(id=${game.id})}" method="post">
+              <button type="submit" class="btn btn-sm btn-outline-success">Start</button>
+            </form>
+            <form th:if="${game.status == 'A'}" th:action="@{/games/finish/{id}(id=${game.id})}" method="post">
+              <button type="submit" class="btn btn-sm btn-outline-warning">Finish</button>
             </form>
 
-            <form th:if="${game.status == 'A'}" th:action="@{/games/finish/{id}(id=${game.id})}" method="post" style="display:inline;">
-              <button type="submit">Finish</button>
-            </form>
-
-            <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post" style="display:inline;">
-              <button type="submit" onclick="return confirm('Na pewno usunąć ten mecz?')">Delete</button>
+            <form th:action="@{/games/delete/{id}(id=${game.id})}" method="post">
+              <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this game?')">Delete</button>
             </form>
           </td>
+
         </tr>
       </tbody>
     </table>
   </div>
-
 </body>
 </html>

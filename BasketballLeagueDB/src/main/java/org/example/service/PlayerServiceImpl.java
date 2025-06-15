@@ -50,21 +50,13 @@ public class PlayerServiceImpl implements PlayerService {
     @Transactional
     public void savePlayer(Player player) {
         boolean isNew = (player.getId() == null);
-        Player existingPlayer = isNew ? null : playerRepository.findById(player.getId()).orElse(null);
-
-        // --- Sprawdź zmianę drużyny PRZED zapisem ---
-        boolean changedTeam = false;
-        if (!isNew && existingPlayer != null) {
-            if (existingPlayer.getTeam() == null || !Objects.equals(existingPlayer.getTeam().getId(), player.getTeam().getId())) {
-                changedTeam = true;
-            }
-        }
-
-        // Zapisz gracza dopiero PO porównaniu
-        Player savedPlayer = playerRepository.save(player);
+        Player savedPlayer;
 
         if (isNew) {
-            // Dodaj pierwszy wpis do player_team
+            // Nowy zawodnik – zapisujemy bezpiecznie
+            savedPlayer = playerRepository.save(player);
+
+            // Dodaj wpis do player_team
             PlayerTeam newEntry = new PlayerTeam();
             newEntry.setPlayer(savedPlayer);
             newEntry.setTeam(savedPlayer.getTeam());
@@ -72,25 +64,47 @@ public class PlayerServiceImpl implements PlayerService {
             newEntry.setJerseyNumber(savedPlayer.getJerseyNumber());
             newEntry.setStartDate(LocalDate.now());
             playerTeamRepository.save(newEntry);
-        }
 
-        if (changedTeam) {
-            PlayerTeam lastTeam = playerTeamRepository.findTopByPlayerIdOrderByStartDateDesc(savedPlayer.getId());
-            if (lastTeam != null) {
-                lastTeam.setEndDate(LocalDate.now());
-                playerTeamRepository.save(lastTeam);
+        } else {
+            Player existingPlayer = playerRepository.findById(player.getId())
+                    .orElseThrow(() -> new RuntimeException("Player not found with id: " + player.getId()));
+
+            // Sprawdź zmianę drużyny
+            boolean changedTeam = existingPlayer.getTeam() == null ||
+                    !Objects.equals(existingPlayer.getTeam().getId(), player.getTeam().getId());
+
+            // Zaktualizuj tylko potrzebne pola (NIE nadpisuj relacji jak gameStats!)
+            existingPlayer.setFirstName(player.getFirstName());
+            existingPlayer.setLastName(player.getLastName());
+            existingPlayer.setIsActive(player.getIsActive());
+            existingPlayer.setBirthDate(player.getBirthDate());
+            existingPlayer.setHeight(player.getHeight());
+            existingPlayer.setWeight(player.getWeight());
+            existingPlayer.setNationality(player.getNationality());
+            existingPlayer.setPosition(player.getPosition());
+            existingPlayer.setJerseyNumber(player.getJerseyNumber());
+            existingPlayer.setTeam(player.getTeam());
+
+            savedPlayer = playerRepository.save(existingPlayer);
+
+            // Jeśli zmienił drużynę – zamknij poprzedni wpis i otwórz nowy
+            if (changedTeam) {
+                PlayerTeam lastTeam = playerTeamRepository.findTopByPlayerIdOrderByStartDateDesc(savedPlayer.getId());
+                if (lastTeam != null) {
+                    lastTeam.setEndDate(LocalDate.now());
+                    playerTeamRepository.save(lastTeam);
+                }
+
+                PlayerTeam newEntry = new PlayerTeam();
+                newEntry.setPlayer(savedPlayer);
+                newEntry.setTeam(savedPlayer.getTeam());
+                newEntry.setSeasonId(seasonService.getCurrentSeasonId());
+                newEntry.setJerseyNumber(savedPlayer.getJerseyNumber());
+                newEntry.setStartDate(LocalDate.now());
+                playerTeamRepository.save(newEntry);
             }
-
-            PlayerTeam newEntry = new PlayerTeam();
-            newEntry.setPlayer(savedPlayer);
-            newEntry.setTeam(savedPlayer.getTeam());
-            newEntry.setSeasonId(seasonService.getCurrentSeasonId());
-            newEntry.setJerseyNumber(savedPlayer.getJerseyNumber());
-            newEntry.setStartDate(LocalDate.now());
-            playerTeamRepository.save(newEntry);
         }
     }
-
     @Override
     @Transactional
     public void deletePlayer(Integer id) {

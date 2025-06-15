@@ -6,9 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.Check;
 
+import java.util.List;
+
 @Check(constraints = "IS_ACTIVE IN ('Y','N')")
 @Entity
-@Table(name = "TEAM")
+@Table(name = "TEAM", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"TEAM_NAME", "CITY"})
+})
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_seq")
@@ -31,6 +35,18 @@ public class Team {
     @NotNull
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     private String isActive;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GameStats> gameStats;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlayerTeam> playerTeams;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TeamRecord> teamRecords;
+
+    @OneToMany(mappedBy = "team")
+    private List<Player> players;
 
     public Team() {
     }
@@ -81,6 +97,9 @@ public class Team {
     public void setIsActive(String isActive) {
         this.isActive = isActive;
     }
+
+    public List<Player> getPlayers() { return players; }
+    public void setPlayers(List<Player> players) { this.players = players; }
 
     @Version
     @Column(name = "VERSION")

@@ -1,48 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Tabela ligowa</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: layout(~{::content}, 'Team Standings')}">
 <body>
-<h1>Klasyfikacja drużyn</h1>
-
-<form method="get" th:action="@{/teams/standings}">
-  <label for="seasonId">Wybierz sezon:</label>
-  <select name="seasonId" id="seasonId">
-    <option th:each="season : ${seasons}"
-            th:value="${season.id}"
-            th:text="${season.seasonYear}"
-            th:selected="${season.id == selectedSeasonId}">
-    </option>
-  </select>
-  <button type="submit">Pokaż</button>
-</form>
-
-<table border="1">
-  <thead>
-  <tr>
-    <th>Drużyna</th>
-    <th>Zwycięstwa</th>
-    <th>Porażki</th>
-    <th>Wygrane u siebie</th>
-    <th>Przegrane u siebie</th>
-    <th>Wygrane na wyjeździe</th>
-    <th>Przegrane na wyjeździe</th>
-    <th>% zwycięstw</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="record : ${teamRecords}">
-    <td th:text="${record.team.name}">Drużyna</td>
-    <td th:text="${record.wins}">0</td>
-    <td th:text="${record.losses}">0</td>
-    <td th:text="${record.homeWins}">0</td>
-    <td th:text="${record.homeLosses}">0</td>
-    <td th:text="${record.awayLosses}">0</td>
-    <td th:text="${record.awayWins}">0</td>
-    <td th:text="${(record.wins + record.losses) > 0 ? (record.wins * 100.0 / (record.wins + record.losses)) : 0} + '%'">%</td>
-  </tr>
-  </tbody>
-</table>
+  <div th:fragment="content">
+    <h1>Team Standings</h1>
+    <form method="get" th:action="@{/teams/standings}" class="row g-3 align-items-center mb-4">
+      <div class="col-auto">
+        <label for="seasonId" class="col-form-label">Select season:</label>
+      </div>
+      <div class="col-auto">
+        <select name="seasonId" id="seasonId" onchange="this.form.submit()" class="form-select">
+          <option th:each="s : ${seasons}" th:value="${s.id}" th:text="${s.seasonYear}" th:selected="${s.id == selectedSeasonId}"></option>
+        </select>
+      </div>
+      <noscript><div class="col-auto"><button type="submit" class="btn btn-primary">Show</button></div></noscript>
+    </form>
+    <table class="table table-hover">
+      <thead class="table-light">
+      <tr>
+        <th>Team</th>
+        <th class="text-center">Wins</th>
+        <th class="text-center">Losses</th>
+        <th class="text-center">Home (W-L)</th>
+        <th class="text-center">Away (W-L)</th>
+        <th class="text-center">Win %</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr th:each="record : ${teamRecords}">
+          <td class="fw-bold" th:text="${record.team.name}">Team</td>
+          <td class="text-center" th:text="${record.wins}">0</td>
+          <td class="text-center" th:text="${record.losses}">0</td>
+          <td class="text-center" th:text="${record.homeWins + '-' + record.homeLosses}">0-0</td>
+          <td class="text-center" th:text="${record.awayWins + '-' + record.awayLosses}">0-0</td>
+          <td class="text-center" th:text="${(record.wins + record.losses) > 0 ? #numbers.formatDecimal((record.wins * 100.0 / (record.wins + record.losses)), 1, 1) : '0.0'} + '%'">%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

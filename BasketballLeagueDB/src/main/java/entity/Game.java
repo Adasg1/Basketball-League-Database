@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "GAME")
+@Check(constraints = "HOME_TEAM_ID != AWAY_TEAM_ID")
 public class Game {
 
     @Id
@@ -55,17 +57,7 @@ public class Game {
     @Column(name = "STATUS", length = 1, nullable = false)
     private String status = "S";
 
-    @Min(0)
-    @NotNull
-    @Column(name = "CURRENT_PERIOD", nullable = false)
-    private Integer currentPeriod = 1;
-
-    @Min(0)
-    @NotNull
-    @Column(name = "TIME_REMAINING", nullable = false)
-    private Double timeRemaining = 600.0;
-
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GameStats> gameStats;
 
     public Game() {
@@ -73,7 +65,7 @@ public class Game {
 
     public Game(Season season, Team homeTeam, Team awayTeam, Team winnerTeam,
                 LocalDateTime gameDate, Integer homeScore, Integer awayScore,
-                String status, Integer currentPeriod, Double timeRemaining) {
+                String status) {
         this.season = season;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -82,8 +74,6 @@ public class Game {
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.status = status;
-        this.currentPeriod = currentPeriod;
-        this.timeRemaining = timeRemaining;
     }
 
     public Integer getId() { return id; }
@@ -112,12 +102,6 @@ public class Game {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public Integer getCurrentPeriod() { return currentPeriod; }
-    public void setCurrentPeriod(Integer currentPeriod) { this.currentPeriod = currentPeriod; }
-
-    public Double getTimeRemaining() { return timeRemaining; }
-    public void setTimeRemaining(Double timeRemaining) { this.timeRemaining = timeRemaining; }
 
     public List<GameStats> getGameStats() { return gameStats; }
     public void setGameStats(List<GameStats> gameStats) { this.gameStats = gameStats; }

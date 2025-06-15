@@ -2,12 +2,16 @@ package entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "SEASON")
+@Table(name = "SEASON", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"SEASON_YEAR"})
+})
+@Check(constraints = "START_DATE <= END_DATE")
 public class Season {
 
     @Id
@@ -27,8 +31,12 @@ public class Season {
     @Column(name = "END_DATE")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "season")
+    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE, orphanRemoval = true)
     public List<TeamRecord> teamRecords;
+
+    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Game> games;
+
 
     public Season() {
     }

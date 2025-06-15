@@ -1,85 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layouts/main-layout :: layout(~{::content}, ${formTitle})}">
-
 <body>
-
-  <div th:fragment="content">
-    <h1 th:text="${formTitle}">Player Form</h1>
-
-    <form th:action="@{/players}" th:object="${player}" method="POST">
-        <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{version}" />
-
-        <div>
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" th:field="*{firstName}" required />
-        </div>
-
-        <div>
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" th:field="*{lastName}" required />
-        </div>
-
-        <div>
-            <label for="birthDate">Birthdate:</label>
-            <input type="date" id="birthDate" th:field="*{birthDate}" required />
-        </div>
-
-        <div>
-            <select id="position" th:field="*{position}" required>
-                <option value="">-- Select Position --</option>
-                <option value="POINT GUARD">Point Guard</option>
-                <option value="SHOOTING GUARD">Shooting Guard</option>
-                <option value="SMALL FORWARD">Small Forward</option>
-                <option value="POWER FORWARD">Power Forward</option>
-                <option value="CENTER">Center</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="team">Team:</label>
-            <select id="team" th:field="*{team.id}" required>
-                <option th:each="team : ${teams}"
-                        th:value="${team.id}"
-                        th:text="${team.name}">
-                </option>
-            </select>
-        </div>
-
-        <div>
-            <label for="nationality">Nationality:</label>
-            <input type="text" id="nationality" th:field="*{nationality}" required />
-        </div>
-
-        <div>
-            <label for="jerseyNumber">Jersey Number:</label>
-            <input type="number" id="jerseyNumber" th:field="*{jerseyNumber}" min="0" max="99" maxlength="2" oninput="this.value=this.value.slice(0,2)" required />
-        </div>
-
-        <div>
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height" th:field="*{height}" required />
-        </div>
-
-        <div>
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" th:field="*{weight}" required />
-        </div>
-
-        <div>
-            <label for="isActive">Is Active:</label>
-            <select id="isActive" th:field="*{isActive}" required>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-            </select>
-        </div>
-
-        <br/>
-        <button type="submit">Save Player</button>
-        <a th:href="@{/players}">Cancel</a>
-    </form>
-  </div>
-
+    <div th:fragment="content">
+        <h1 th:text="${formTitle}">Player Form</h1>
+        <form th:action="@{/players/save}" th:object="${player}" method="POST" class="mt-4">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{version}" />
+            <div class="row">
+                <div class="col-md-6 mb-3"><label for="firstName" class="form-label">First Name:</label><input type="text" id="firstName" th:field="*{firstName}" class="form-control" required /></div>
+                <div class="col-md-6 mb-3"><label for="lastName" class="form-label">Last Name:</label><input type="text" id="lastName" th:field="*{lastName}" class="form-control" required /></div>
+                <div class="col-md-6 mb-3"><label for="birthDate" class="form-label">Birthdate:</label><input type="date" id="birthDate" th:field="*{birthDate}" class="form-control" required /></div>
+                <div class="col-md-6 mb-3"><label for="nationality" class="form-label">Nationality:</label><input type="text" id="nationality" th:field="*{nationality}" class="form-control" required /></div>
+                <div class="col-md-6 mb-3"><label for="position" class="form-label">Position:</label><select id="position" th:field="*{position}" class="form-select" required><option value="">-- Select Position --</option><option value="POINT GUARD">Point Guard</option><option value="SHOOTING GUARD">Shooting Guard</option><option value="SMALL FORWARD">Small Forward</option><option value="POWER FORWARD">Power Forward</option><option value="CENTER">Center</option></select></div>
+                <div class="col-md-6 mb-3"><label for="team" class="form-label">Team:</label><select id="team" th:field="*{team.id}" class="form-select" required><option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option></select></div>
+                <div class="col-md-4 mb-3"><label for="jerseyNumber" class="form-label">Jersey Number:</label><input type="number" id="jerseyNumber" th:field="*{jerseyNumber}" class="form-control" min="0" max="99" /></div>
+                <div class="col-md-4 mb-3"><label for="height" class="form-label">Height (cm):</label><input type="number" id="height" th:field="*{height}" class="form-control" required /></div>
+                <div class="col-md-4 mb-3"><label for="weight" class="form-label">Weight (kg):</label><input type="number" id="weight" th:field="*{weight}" class="form-control" required /></div>
+                <div class="col-md-12 mb-3"><label for="isActive" class="form-label">Is Active:</label><select id="isActive" th:field="*{isActive}" class="form-select" required><option value="Y">Yes</option><option value="N">No</option></select></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Player</button>
+            <a th:href="@{/players}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

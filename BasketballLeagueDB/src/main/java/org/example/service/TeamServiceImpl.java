@@ -1,8 +1,10 @@
 package org.example.service;
 
+import entity.Player;
 import entity.Team;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.example.repository.PlayerRepository;
 import org.example.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,6 @@ public class TeamServiceImpl implements TeamService {
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     public List<Team> getAllTeams() {

@@ -27,7 +27,7 @@ public class SeasonController {
         return "seasons/form";
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String saveSeason(@ModelAttribute("season") Season season, Model model) {
 
         if (season.getStartDate() != null && season.getStartDate().getYear() != season.getSeasonYear()) {
@@ -46,7 +46,7 @@ public class SeasonController {
         return "seasons/form";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteSeason(@PathVariable Integer id) {
         seasonService.deleteSeason(id);
         return "redirect:/seasons";
