@@ -60,8 +60,11 @@ public class Player {
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     public String isActive;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlayerTeam> playerTeams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GameStats> gameStats;
 
     public Player() {
     }

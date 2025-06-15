@@ -27,8 +27,12 @@ public class Season {
     @Column(name = "END_DATE")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "season")
+    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE, orphanRemoval = true)
     public List<TeamRecord> teamRecords;
+
+    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Game> games;
+
 
     public Season() {
     }

@@ -65,7 +65,7 @@ public class Game {
     @Column(name = "TIME_REMAINING", nullable = false)
     private Double timeRemaining = 600.0;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GameStats> gameStats;
 
     public Game() {

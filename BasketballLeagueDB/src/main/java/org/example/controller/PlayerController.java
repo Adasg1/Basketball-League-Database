@@ -65,7 +65,7 @@ public class PlayerController {
         return "players/form";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deletePlayer(@PathVariable("id") Integer id) {
         playerService.deletePlayer(id);
         return "redirect:/players";

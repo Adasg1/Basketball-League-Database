@@ -99,16 +99,6 @@ public class GameStats {
     @Column(name = "FOULS", nullable = false)
     public Integer fouls = 0;
 
-    @Min(0)
-    @NotNull
-    @Column(name = "FOULS_ON", nullable = false)
-    public Integer foulsOn = 0;
-
-    @Min(0)
-    @NotNull
-    @Column(name = "PLUS_MINUS", nullable = false)
-    public Integer plusMinus = 0;
-
     public GameStats() {
     }
 
@@ -117,7 +107,7 @@ public class GameStats {
                      Integer fieldGoalsMade, Integer fieldGoalsAttempted,
                      Integer threePointsMade, Integer threePointsAttempted,
                      Integer freeThrowsMade, Integer freeThrowsAttempted,
-                     Integer fouls, Integer foulsOn, Integer plusMinus) {
+                     Integer fouls) {
         this.game = game;
         this.player = player;
         this.team = team;
@@ -135,8 +125,6 @@ public class GameStats {
         this.freeThrowsMade = freeThrowsMade;
         this.freeThrowsAttempted = freeThrowsAttempted;
         this.fouls = fouls;
-        this.foulsOn = foulsOn;
-        this.plusMinus = plusMinus;
     }
 
     public GameStats(Game game, Player player, Team team) {

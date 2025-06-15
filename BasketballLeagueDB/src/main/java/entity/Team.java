@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.Check;
 
+import java.util.List;
+
 @Check(constraints = "IS_ACTIVE IN ('Y','N')")
 @Entity
 @Table(name = "TEAM")
@@ -31,6 +33,15 @@ public class Team {
     @NotNull
     @Column(name = "IS_ACTIVE", length = 1, nullable = false)
     private String isActive;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GameStats> gameStats;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PlayerTeam> playerTeams;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<TeamRecord> teamRecords;
 
     public Team() {
     }

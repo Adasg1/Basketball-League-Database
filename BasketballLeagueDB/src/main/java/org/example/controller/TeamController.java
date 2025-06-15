@@ -62,18 +62,21 @@ public class TeamController {
         return "redirect:/teams";
     }
 
-    // klasyfikacja druzyn (standings)
     @GetMapping("/standings")
     public String showStandings(@RequestParam(value = "seasonId", required = false) Integer seasonId, Model model) {
         List<Season> allSeasons = seasonService.getAllSeasons();
         model.addAttribute("seasons", allSeasons);
 
-        // latwiejsze znajdowanie domyslnego sezonu
+        if (allSeasons.isEmpty()) {
+            model.addAttribute("teamRecords", List.of());
+            model.addAttribute("selectedSeasonId", null);
+            return "teams/standings";
+        }
+
         Integer selectedSeasonId = (seasonId != null)
                 ? seasonId
                 : seasonService.getCurrentSeasonId(); // zakladamy ze serwis to ma
 
-        // pobieramy juz posortowane rekordy z bazy
         List<TeamRecord> teamRecords = (selectedSeasonId != null)
                 ? teamRecordService.getRecordsBySeasonIdOrderByWinsDesc(selectedSeasonId) // nowa, posortowana metoda
                 : List.of();

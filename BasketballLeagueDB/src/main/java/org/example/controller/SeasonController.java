@@ -46,7 +46,7 @@ public class SeasonController {
         return "seasons/form";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteSeason(@PathVariable Integer id) {
         seasonService.deleteSeason(id);
         return "redirect:/seasons";
