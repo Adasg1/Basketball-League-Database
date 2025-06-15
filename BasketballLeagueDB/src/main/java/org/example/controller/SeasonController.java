@@ -27,7 +27,7 @@ public class SeasonController {
         return "seasons/form";
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String saveSeason(@ModelAttribute("season") Season season, Model model) {
 
         if (season.getStartDate() != null && season.getStartDate().getYear() != season.getSeasonYear()) {

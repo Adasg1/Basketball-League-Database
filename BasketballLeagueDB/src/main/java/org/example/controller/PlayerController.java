@@ -45,7 +45,7 @@ public class PlayerController {
         return "players/form"; // formularz dodawania/edycji
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public String savePlayer(@Valid @ModelAttribute("player") Player player,
                              BindingResult bindingResult,
                              Model model) {
