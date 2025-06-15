@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.example.repository.PlayerRepository;
 import org.example.repository.PlayerTeamRepository;
-import org.example.repository.SeasonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,10 +52,8 @@ public class PlayerServiceImpl implements PlayerService {
         Player savedPlayer;
 
         if (isNew) {
-            // Nowy zawodnik – zapisujemy bezpiecznie
             savedPlayer = playerRepository.save(player);
 
-            // Dodaj wpis do player_team
             PlayerTeam newEntry = new PlayerTeam();
             newEntry.setPlayer(savedPlayer);
             newEntry.setTeam(savedPlayer.getTeam());
@@ -69,11 +66,9 @@ public class PlayerServiceImpl implements PlayerService {
             Player existingPlayer = playerRepository.findById(player.getId())
                     .orElseThrow(() -> new RuntimeException("Player not found with id: " + player.getId()));
 
-            // Sprawdź zmianę drużyny
             boolean changedTeam = existingPlayer.getTeam() == null ||
                     !Objects.equals(existingPlayer.getTeam().getId(), player.getTeam().getId());
 
-            // Zaktualizuj tylko potrzebne pola (NIE nadpisuj relacji jak gameStats!)
             existingPlayer.setFirstName(player.getFirstName());
             existingPlayer.setLastName(player.getLastName());
             existingPlayer.setIsActive(player.getIsActive());
@@ -87,7 +82,6 @@ public class PlayerServiceImpl implements PlayerService {
 
             savedPlayer = playerRepository.save(existingPlayer);
 
-            // Jeśli zmienił drużynę – zamknij poprzedni wpis i otwórz nowy
             if (changedTeam) {
                 PlayerTeam lastTeam = playerTeamRepository.findTopByPlayerIdOrderByStartDateDesc(savedPlayer.getId());
                 if (lastTeam != null) {

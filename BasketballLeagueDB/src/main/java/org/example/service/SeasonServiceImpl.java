@@ -41,13 +41,10 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     @Transactional
     public void saveSeason(Season season) {
-        // 1. Zapisz sezon i uzyskaj jego ID
         Season savedSeason = seasonRepository.save(season);
 
-        // 2. Pobierz aktywne drużyny
         List<Team> activeTeams = teamRepository.findByIsActive("Y");
 
-        // 3. Utwórz rekordy drużyn
         for (Team team : activeTeams) {
             TeamRecord record = new TeamRecord(team, savedSeason, 0, 0, 0, 0, 0, 0);
             teamRecordRepository.save(record);
