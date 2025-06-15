@@ -15,14 +15,74 @@
       </tr>
       </thead>
       <tbody>
-        <tr th:if="${#lists.isEmpty(player.playerTeams)}"><td colspan="5">No Career History Found</td></tr>
-        <tr th:each="pt : ${player.playerTeams}">
-          <td th:text="${seasonMap[pt.seasonId]?.seasonYear}">2024</td>
+      <tr th:if="${#lists.isEmpty(player.playerTeams)}">
+        <td colspan="5">No Career History Found</td>
+      </tr>
+
+      <th:block th:each="pt : ${player.playerTeams}">
+        <tr>
+          <td th:text="|${seasonMap[pt.seasonId]?.seasonYear}/${seasonMap[pt.seasonId]?.seasonYear + 1}|">2024/2025</td>
           <td th:text="${pt.team.name}">Team Name</td>
           <td th:text="${pt.jerseyNumber}">00</td>
           <td th:text="${pt.startDate}">2024-10-01</td>
           <td th:text="${pt.endDate != null ? pt.endDate : 'Present'}">Present</td>
         </tr>
+
+        <tr>
+          <td colspan="5">
+            <div th:each="stat : ${careerStats}"
+                 th:if="${stat.seasonId} == ${pt.seasonId} and ${stat.teamId} == ${pt.team.id}">
+
+              <h6>Total Stats</h6>
+              <table class="table table-sm mb-2">
+                <thead>
+                <tr>
+                  <th>GP</th>
+                  <th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th>
+                  <th>FGA</th><th>FGM</th>
+                  <th>3PA</th><th>3PM</th>
+                  <th>FTA</th><th>FTM</th>
+                  <th>TO</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td th:text="${stat.gamesPlayed}">0</td>
+                  <td th:text="${stat.totalPoints}">0</td>
+                  <td th:text="${stat.totalRebounds}">0</td>
+                  <td th:text="${stat.totalAssists}">0</td>
+                  <td th:text="${stat.totalSteals}">0</td>
+                  <td th:text="${stat.totalBlocks}">0</td>
+                  <td th:text="${stat.totalFga}">0</td>
+                  <td th:text="${stat.totalFgm}">0</td>
+                  <td th:text="${stat.total3pa}">0</td>
+                  <td th:text="${stat.total3pm}">0</td>
+                  <td th:text="${stat.totalFta}">0</td>
+                  <td th:text="${stat.totalFtm}">0</td>
+                  <td th:text="${stat.totalTurnovers}">0</td>
+                </tr>
+                </tbody>
+              </table>
+
+              <h6>Average Stats</h6>
+              <table class="table table-sm">
+                <thead>
+                <tr><th>PTS</th><th>REB</th><th>AST</th><th>EVAL</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td th:text="${stat.avgPoints}">0.0</td>
+                  <td th:text="${stat.avgRebounds}">0.0</td>
+                  <td th:text="${stat.avgAssists}">0.0</td>
+                  <td th:text="${stat.avgEval}">0.0</td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </td>
+        </tr>
+      </th:block>
       </tbody>
     </table>
     <a th:href="@{/players}" class="btn btn-secondary mt-3">Back to Players</a>

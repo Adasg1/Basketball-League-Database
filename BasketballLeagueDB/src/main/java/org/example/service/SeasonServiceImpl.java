@@ -1,14 +1,12 @@
 package org.example.service;
 
-import entity.Season;
-import entity.Team;
-import entity.TeamRecord;
+import entity.*;
 import jakarta.transaction.Transactional;
-import org.example.repository.SeasonRepository;
-import org.example.repository.TeamRecordRepository;
-import org.example.repository.TeamRepository;
+import org.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +20,12 @@ public class SeasonServiceImpl implements SeasonService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
+    @Autowired
+    private PlayerTeamRepository playerTeamRepository;
 
     @Override
     public List<Season> getAllSeasons() {
@@ -37,16 +41,24 @@ public class SeasonServiceImpl implements SeasonService {
     @Override
     @Transactional
     public void saveSeason(Season season) {
-        // 1. Zapisz sezon i uzyskaj jego ID
         Season savedSeason = seasonRepository.save(season);
 
-        // 2. Pobierz aktywne drużyny
         List<Team> activeTeams = teamRepository.findByIsActive("Y");
 
-        // 3. Utwórz rekordy drużyn
         for (Team team : activeTeams) {
             TeamRecord record = new TeamRecord(team, savedSeason, 0, 0, 0, 0, 0, 0);
             teamRecordRepository.save(record);
+        }
+
+        List<Player> activePlayers = playerRepository.findAllByTeamInAndIsActive(activeTeams, "Y");
+        for (Player player : activePlayers) {
+            PlayerTeam pt = new PlayerTeam();
+            pt.setPlayer(player);
+            pt.setTeam(player.getTeam());
+            pt.setSeasonId(savedSeason.getId());
+            pt.setJerseyNumber(player.getJerseyNumber());
+            pt.setStartDate(LocalDate.now());
+            playerTeamRepository.save(pt);
         }
     }
 

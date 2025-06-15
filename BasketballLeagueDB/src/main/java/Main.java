@@ -17,7 +17,6 @@ public class Main {
         //tx.commit();
 
         session.close();
-        System.out.println("koniec.");
     }
 
     private static SessionFactory getSessionFactory() {
