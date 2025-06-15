@@ -1,13 +1,7 @@
 package org.example.service;
 
-import entity.Game;
-import entity.GameStats;
-import entity.Player;
-import entity.Team;
-import org.example.repository.GameRepository;
-import org.example.repository.GameStatsRepository;
-import org.example.repository.PlayerRepository;
-import org.example.repository.TeamRepository;
+import entity.*;
+import org.example.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +14,13 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final PlayerRepository playerRepository;
     private final GameStatsRepository gameStatsRepository;
-    private final TeamRepository teamRepository;
+    private final TeamRecordRepository teamRecordRepository;
 
-    public GameServiceImpl(GameRepository gameRepository,PlayerRepository playerRepository,GameStatsRepository gameStatsRepository,TeamRepository teamRepository) {
+    public GameServiceImpl(GameRepository gameRepository,PlayerRepository playerRepository,GameStatsRepository gameStatsRepository,TeamRecordRepository teamRecordRepository) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.gameStatsRepository = gameStatsRepository;
-        this.teamRepository = teamRepository;
+        this.teamRecordRepository = teamRecordRepository;
     }
 
     @Override
@@ -44,8 +38,51 @@ public class GameServiceImpl implements GameService {
         gameRepository.save(game);
     }
 
+    @Transactional
     @Override
     public void deleteGameById(Integer id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game not found"));
+
+        Team winner = game.getWinnerTeam();
+        Team home = game.getHomeTeam();
+        Team away = game.getAwayTeam();
+        Season season = game.getSeason();
+
+        if (winner != null && home != null && away != null) {
+            boolean homeWon = winner.getId().equals(home.getId());
+            boolean awayWon = winner.getId().equals(away.getId());
+
+            Optional<TeamRecord> homeRecordOpt = teamRecordRepository.findByTeamAndSeason(home, season);
+            Optional<TeamRecord> awayRecordOpt = teamRecordRepository.findByTeamAndSeason(away, season);
+
+            if (homeRecordOpt.isPresent() && awayRecordOpt.isPresent()) {
+                TeamRecord homeRecord = homeRecordOpt.get();
+                TeamRecord awayRecord = awayRecordOpt.get();
+
+                if (homeWon) {
+                    // HOME wygrał, AWAY przegrał
+                    homeRecord.setWins(Math.max(0, homeRecord.getWins() - 1));
+                    homeRecord.setHomeWins(Math.max(0, homeRecord.getHomeWins() - 1));
+
+                    awayRecord.setLosses(Math.max(0, awayRecord.getLosses() - 1));
+                    awayRecord.setAwayLosses(Math.max(0, awayRecord.getAwayLosses() - 1));
+
+                } else if (awayWon) {
+                    // AWAY wygrał, HOME przegrał
+                    awayRecord.setWins(Math.max(0, awayRecord.getWins() - 1));
+                    awayRecord.setAwayWins(Math.max(0, awayRecord.getAwayWins() - 1));
+
+                    homeRecord.setLosses(Math.max(0, homeRecord.getLosses() - 1));
+                    homeRecord.setHomeLosses(Math.max(0, homeRecord.getHomeLosses() - 1));
+                }
+
+                teamRecordRepository.save(homeRecord);
+                teamRecordRepository.save(awayRecord);
+            }
+        }
+
+        // Usuń mecz
         gameRepository.deleteById(id);
     }
 
@@ -173,7 +210,10 @@ public class GameServiceImpl implements GameService {
                 if (stats.turnovers + change >= 0) stats.turnovers += change;
                 break;
             case "fouls":
-                if (stats.fouls + change >= 0) stats.fouls += change;
+                int newFouls = stats.fouls + change;
+                if (newFouls >= 0 && newFouls <= 5) {
+                    stats.fouls = newFouls;
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Unknown stat: " + statName);

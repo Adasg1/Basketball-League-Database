@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import entity.Player;
+import entity.PlayerStatsView;
 import entity.Season;
 import org.example.service.PlayerService;
+import org.example.service.PlayerStatsViewService;
 import org.example.service.SeasonService;
 import org.example.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class PlayerController {
     @Autowired
     private SeasonService seasonService;
 
+    @Autowired
+    private PlayerStatsViewService playerStatsViewService;
 
     @GetMapping
     public String listPlayers(Model model) {
@@ -73,13 +77,14 @@ public class PlayerController {
 
     @GetMapping("/{id}/career")
     public String viewCareer(@PathVariable Integer id, Model model) {
-        System.out.println("CAREER ID = " + id); // <-- nie działa = metoda nie jest widziana
         Player player = playerService.getById(id);
         Map<Integer, Season> seasonMap = seasonService.findAll()
                 .stream().collect(Collectors.toMap(Season::getId, Function.identity()));
+        List<PlayerStatsView> careerStats = playerStatsViewService.getByPlayerId(id);
 
         model.addAttribute("player", player);
         model.addAttribute("seasonMap", seasonMap);
+        model.addAttribute("careerStats", careerStats);
         return "players/career";
     }
 }

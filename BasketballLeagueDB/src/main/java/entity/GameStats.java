@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Check;
@@ -105,6 +106,7 @@ public class GameStats {
     public Integer freeThrowsAttempted = 0;
 
     @Min(0)
+    @Max(5)
     @NotNull
     @Column(name = "FOULS", nullable = false)
     public Integer fouls = 0;
