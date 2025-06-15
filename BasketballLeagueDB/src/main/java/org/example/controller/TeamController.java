@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import entity.Player;
 import entity.Season;
 import entity.Team;
 import entity.TeamRecord;
@@ -84,5 +85,15 @@ public class TeamController {
         model.addAttribute("teamRecords", teamRecords);
         model.addAttribute("selectedSeasonId", selectedSeasonId);
         return "teams/standings";
+    }
+
+    @GetMapping("/{id}/players")
+    public String viewTeamPlayers(@PathVariable Integer id, Model model) {
+        Team team = teamService.getTeamById(id);
+        List<Player> players = team.getPlayers();
+
+        model.addAttribute("team", team);
+        model.addAttribute("players", players);
+        return "teams/players"; // nowy szablon HTML
     }
 }

@@ -3,9 +3,19 @@ package entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 
 @Entity
-@Table(name = "GAME_STATS")
+@Table(name = "GAME_STATS",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"GAME_ID", "PLAYER_ID"})
+        }
+)
+@Check(constraints =
+        "FIELD_GOALS_MADE <= FIELD_GOALS_ATTEMPTED AND " +
+        "THREE_POINTS_MADE <= THREE_POINTS_ATTEMPTED AND " +
+        "FREE_THROWS_MADE <= FREE_THROWS_ATTEMPTED"
+)
 public class GameStats {
 
     @Id

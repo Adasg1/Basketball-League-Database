@@ -2,12 +2,16 @@ package entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "SEASON")
+@Table(name = "SEASON", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"SEASON_YEAR"})
+})
+@Check(constraints = "START_DATE <= END_DATE")
 public class Season {
 
     @Id

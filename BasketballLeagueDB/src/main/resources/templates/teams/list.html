@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr th:each="team : ${listTeams}">
-          <td th:text="${team.name}">Team Name</td>
+          <td> <a th:href="@{/teams/{id}/players(id=${team.id})}" th:text="${team.name}">Team Name</a> </td>
           <td th:text="${team.city}">City</td>
           <td th:text="${team.arena}">Arena</td>
           <td>

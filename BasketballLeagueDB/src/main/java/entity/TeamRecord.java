@@ -7,7 +7,8 @@ import org.hibernate.annotations.Check;
 
 @Check(constraints = "WINS + LOSSES = HOME_WINS + HOME_LOSSES + AWAY_WINS + AWAY_LOSSES")
 @Entity
-@Table(name = "TEAM_RECORD")
+@Table(name = "TEAM_RECORD",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"TEAM_ID", "SEASON_ID"}))
 public class TeamRecord {
 
     @Id
