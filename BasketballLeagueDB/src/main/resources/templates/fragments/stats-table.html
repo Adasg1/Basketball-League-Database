@@ -40,7 +40,7 @@
                     <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="2"/><button type="submit" class="btn btn-outline-primary btn-sm">+2</button></form>
                     <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="points"/><input type="hidden" name="change" value="3"/><button type="submit" class="btn btn-outline-primary btn-sm">+3</button></form>
                   </div>
-                  <div class="btn-group btn-group-sm mt-1" role="group">
+                  <div class="btn-group btn-group-sm" role="group">
                     <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="ft_miss"/><input type="hidden" name="change" value="1"/><button type="submit" class="btn btn-outline-danger btn-sm" title="Missed FT">FT</button></form>
                     <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="2p_miss"/><input type="hidden" name="change" value="1"/><button type="submit" class="btn btn-outline-danger btn-sm" title="Missed 2P">2P</button></form>
                     <form th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" value="3p_miss"/><input type="hidden" name="change" value="1"/><button type="submit" class="btn btn-outline-danger btn-sm" title="Missed 3P">3P</button></form>
@@ -48,17 +48,16 @@
                 </div>
               </td>
 
-              <!-- POPRAWIONA PĘTLA -->
               <td th:each="statName : ${statNames}" class="text-center">
                 <div class="input-group input-group-sm justify-content-center">
                   <form th:if="${game.status == 'A'}" th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" th:value="${statName}"/><input type="hidden" name="change" value="-1"/><button type="submit" class="btn btn-outline-secondary">-</button></form>
                   <th:block th:switch="${statName}">
-                    <span th:case="'rebounds'"  class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.rebounds ?: 0}">0</span>
-                    <span th:case="'assists'"   class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.assists ?: 0}">0</span>
-                    <span th:case="'steals'"    class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.steals ?: 0}">0</span>
-                    <span th:case="'blocks'"    class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.blocks ?: 0}">0</span>
-                    <span th:case="'turnovers'" class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.turnovers ?: 0}">0</span>
-                    <span th:case="'fouls'"     class="input-group-text fw-bold" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.fouls ?: 0}">0</span>
+                    <span th:case="'rebounds'"  class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.rebounds ?: 0}">0</span>
+                    <span th:case="'assists'"   class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.assists ?: 0}">0</span>
+                    <span th:case="'steals'"    class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.steals ?: 0}">0</span>
+                    <span th:case="'blocks'"    class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.blocks ?: 0}">0</span>
+                    <span th:case="'turnovers'" class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.turnovers ?: 0}">0</span>
+                    <span th:case="'fouls'"     class="input-group-text fw-bold justify-content-center" style="min-width: 40px;" th:text="${statsMap.get(player.id)?.fouls ?: 0}">0</span>
                   </th:block>
                   <form th:if="${game.status == 'A'}" th:action="@{/games/live/update-stat}" method="post"><input type="hidden" name="gameId" th:value="${game.id}"/><input type="hidden" name="playerId" th:value="${player.id}"/><input type="hidden" name="statName" th:value="${statName}"/><input type="hidden" name="change" value="1"/><button type="submit" class="btn btn-outline-secondary">+</button></form>
                 </div>

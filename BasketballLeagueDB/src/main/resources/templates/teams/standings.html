@@ -28,7 +28,7 @@
       </thead>
       <tbody>
         <tr th:each="record : ${teamRecords}">
-          <td class="fw-bold" th:text="${record.team.name}">Team</td>
+          <td class="fw-bold"> <a th:href="@{/teams/{id}/players(id=${record.team.id})}" th:text="${record.team.name}" class="text-decoration-none text-dark fw-bold"> Team </a> </td>
           <td class="text-center" th:text="${record.wins}">0</td>
           <td class="text-center" th:text="${record.losses}">0</td>
           <td class="text-center" th:text="${record.homeWins + '-' + record.homeLosses}">0-0</td>

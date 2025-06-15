@@ -80,7 +80,7 @@ public class GameServiceImpl implements GameService {
             }
         }
 
-        // Usuń mecz
+        // Usun mecz
         gameRepository.deleteById(id);
     }
 

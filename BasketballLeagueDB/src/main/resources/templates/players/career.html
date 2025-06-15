@@ -22,7 +22,7 @@
       <th:block th:each="pt : ${player.playerTeams}">
         <tr>
           <td th:text="|${seasonMap[pt.seasonId]?.seasonYear}/${seasonMap[pt.seasonId]?.seasonYear + 1}|">2024/2025</td>
-          <td th:text="${pt.team.name}">Team Name</td>
+          <td> <a th:text="${pt.team.name}" th:href="@{/teams/{id}/players(id=${pt.team.id})}" class="text-decoration-none text-dark fw-bold">Team Name </a> </td>
           <td th:text="${pt.jerseyNumber}">00</td>
           <td th:text="${pt.startDate}">2024-10-01</td>
           <td th:text="${pt.endDate != null ? pt.endDate : 'Present'}">Present</td>
