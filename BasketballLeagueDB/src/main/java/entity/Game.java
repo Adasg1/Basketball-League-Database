@@ -60,6 +60,10 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GameStats> gameStats;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
     public Game() {
     }
 
@@ -78,43 +82,27 @@ public class Game {
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
-
     public Season getSeason() { return season; }
     public void setSeason(Season season) { this.season = season; }
-
     public Team getHomeTeam() { return homeTeam; }
     public void setHomeTeam(Team homeTeam) { this.homeTeam = homeTeam; }
-
     public Team getAwayTeam() { return awayTeam; }
     public void setAwayTeam(Team awayTeam) { this.awayTeam = awayTeam; }
-
     public Team getWinnerTeam() { return winnerTeam; }
     public void setWinnerTeam(Team winnerTeam) { this.winnerTeam = winnerTeam; }
-
     public LocalDateTime getGameDate() { return gameDate; }
     public void setGameDate(LocalDateTime gameDate) { this.gameDate = gameDate; }
-
     public Integer getHomeScore() { return homeScore; }
     public void setHomeScore(Integer homeScore) { this.homeScore = homeScore; }
-
     public Integer getAwayScore() { return awayScore; }
     public void setAwayScore(Integer awayScore) { this.awayScore = awayScore; }
-
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
     public List<GameStats> getGameStats() { return gameStats; }
     public void setGameStats(List<GameStats> gameStats) { this.gameStats = gameStats; }
-
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }
