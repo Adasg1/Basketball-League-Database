@@ -4,6 +4,11 @@
 <body>
     <div th:fragment="content">
         <h1 th:text="${formTitle}">Player Form</h1>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p class="mb-0" th:text="${errorMessage}"></p>
+        </div>
+
         <form th:action="@{/players/save}" th:object="${player}" method="POST" class="mt-4">
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{version}" />

@@ -80,5 +80,11 @@ class TeamServiceConcurrencyTest {
         // 6. jeszcze sprawdzamy czy w bazie jest wpis tego watku ktory wygral
         Team finalTeam = teamRepository.findById(teamId).orElseThrow();
         assertThat(finalTeam.getArena()).startsWith("Zaktualizowane przez watek");
+
+        // 7. sprzatamy po sobie
+        transactionTemplate.execute(status -> {
+            teamRepository.deleteById(teamId);
+            return null;
+        });
     }
 }

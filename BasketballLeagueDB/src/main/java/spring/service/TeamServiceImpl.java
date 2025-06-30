@@ -1,5 +1,7 @@
 package spring.service;
 
+import entity.GameStats;
+import entity.Player;
 import entity.Team;
 import spring.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,33 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public void saveTeam(Team team) {
-        this.teamRepository.save(team);
+    public void saveTeam(Team incomingTeam) {
+        if (incomingTeam.getId() != null) {
+            Team existingTeam = teamRepository.findById(incomingTeam.getId())
+                    .orElseThrow(() -> new RuntimeException("Team not found"));
+
+            existingTeam.setName(incomingTeam.getName());
+            existingTeam.setCity(incomingTeam.getCity());
+            existingTeam.setArena(incomingTeam.getArena());
+            existingTeam.setIsActive(incomingTeam.getIsActive());
+
+            existingTeam.getGameStats().clear();
+            if (incomingTeam.getGameStats() != null) {
+                for (GameStats gs : incomingTeam.getGameStats()) {
+                    gs.setTeam(existingTeam);
+                    existingTeam.getGameStats().add(gs);
+                }
+            }
+
+            teamRepository.save(existingTeam);
+        } else {
+            if (incomingTeam.getGameStats() != null) {
+                for (GameStats gs : incomingTeam.getGameStats()) {
+                    gs.setTeam(incomingTeam);
+                }
+            }
+            teamRepository.save(incomingTeam);
+        }
     }
 
     @Override

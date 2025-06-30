@@ -8,6 +8,7 @@ import spring.service.PlayerStatsViewService;
 import spring.service.SeasonService;
 import spring.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,8 +58,15 @@ public class PlayerController {
             model.addAttribute("teams", teamService.getAllTeams());
             return "players/form";
         }
-        playerService.savePlayer(player);
-        return "redirect:/players";
+
+        try {
+            playerService.savePlayer(player);
+            return "redirect:/players";
+        } catch (ObjectOptimisticLockingFailureException e) {
+            model.addAttribute("errorMessage", "Dane zostały w międzyczasie zmienione przez innego użytkownika. Twoje zmiany nie zostały zapisane.");
+            model.addAttribute("teams", teamService.getAllTeams());
+            return "players/form";
+        }
     }
 
     @GetMapping("/edit/{id}")

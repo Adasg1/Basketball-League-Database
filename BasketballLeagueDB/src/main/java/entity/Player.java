@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "PLAYER",
@@ -35,6 +36,7 @@ public class Player {
     @NotNull
     @Past
     @Column(name = "BIRTHDATE", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @NotNull

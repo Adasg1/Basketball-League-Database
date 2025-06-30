@@ -93,7 +93,16 @@ public class Team {
     }
     public List<Player> getPlayers() { return players; }
     public void setPlayers(List<Player> players) { this.players = players; }
-    public Long getVersion() { return version; }
+    public List<GameStats> getGameStats() { return gameStats; }
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
+    public Long getVersion() {
+        return version;
+    }
+
     public void setVersion(Long version) {
         this.version = version;
     }

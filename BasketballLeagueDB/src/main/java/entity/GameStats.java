@@ -188,4 +188,8 @@ public class GameStats {
     public void setVersion(Long version) {
         this.version = version;
     }
+
+    public void setTeam(Team incomingTeam){
+        this.team=incomingTeam;
+    }
 }
