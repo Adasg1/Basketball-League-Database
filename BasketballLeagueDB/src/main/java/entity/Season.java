@@ -37,6 +37,9 @@ public class Season {
     @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Game> games;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
 
     public Season() {
     }
@@ -71,15 +74,9 @@ public class Season {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }

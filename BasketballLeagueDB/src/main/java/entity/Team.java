@@ -5,7 +5,6 @@ import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.Check;
-
 import java.util.List;
 
 @Check(constraints = "IS_ACTIVE IN ('Y','N')")
@@ -47,6 +46,10 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Player> players;
+
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
 
     public Team() {
     }
@@ -90,15 +93,7 @@ public class Team {
     }
     public List<Player> getPlayers() { return players; }
     public void setPlayers(List<Player> players) { this.players = players; }
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
-    public Long getVersion() {
-        return version;
-    }
-
+    public Long getVersion() { return version; }
     public void setVersion(Long version) {
         this.version = version;
     }

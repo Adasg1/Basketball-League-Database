@@ -73,6 +73,10 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GameStats> gameStats;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
     public Player() {
     }
 
@@ -94,109 +98,79 @@ public class Player {
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public Team getTeam() {
         return team;
     }
-
     public void setTeam(Team team) {
         this.team = team;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
-
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
-
     public String getPosition() {
         return position;
     }
-
     public void setPosition(String position) {
         this.position = position;
     }
-
     public String getNationality() {
         return nationality;
     }
-
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
-
     public Integer getJerseyNumber() {
         return jerseyNumber;
     }
-
     public void setJerseyNumber(Integer jerseyNumber) {
         this.jerseyNumber = jerseyNumber;
     }
-
     public Integer getHeight() {
         return height;
     }
-
     public void setHeight(Integer height) {
         this.height = height;
     }
-
     public Integer getWeight() {
         return weight;
     }
-
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
-
     public String getIsActive() {
         return isActive;
     }
-
     public void setIsActive(String isActive) {
         this.isActive = isActive;
     }
-
     public List<PlayerTeam> getPlayerTeams() {
         return playerTeams;
     }
-
     public void setPlayerTeams(List<PlayerTeam> playerTeams) {
         this.playerTeams = playerTeams;
     }
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }
-
 }

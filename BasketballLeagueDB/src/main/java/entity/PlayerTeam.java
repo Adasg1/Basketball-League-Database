@@ -46,6 +46,10 @@ public class PlayerTeam {
     @Column(name = "END_DATE")
     public LocalDate endDate;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
     public PlayerTeam() {
     }
 
@@ -71,15 +75,9 @@ public class PlayerTeam {
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
     public Integer getSeasonId() { return seasonId; }
     public void setSeasonId(Integer seasonId) { this.seasonId = seasonId; }
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }

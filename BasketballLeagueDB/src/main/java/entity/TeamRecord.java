@@ -57,6 +57,10 @@ public class TeamRecord {
     @Column(name = "AWAY_LOSSES", nullable = false)
     public Integer awayLosses = 0;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
     public TeamRecord() {
     }
 
@@ -96,15 +100,9 @@ public class TeamRecord {
     public void setAwayWins(Integer awayWins) { this.awayWins = awayWins; }
     public Integer getAwayLosses() { return awayLosses; }
     public void setAwayLosses(Integer awayLosses) { this.awayLosses = awayLosses; }
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
     public Long getVersion() {
         return version;
     }
-
     public void setVersion(Long version) {
         this.version = version;
     }

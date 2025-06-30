@@ -10,8 +10,7 @@ import org.hibernate.annotations.Check;
 @Table(name = "GAME_STATS",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"GAME_ID", "PLAYER_ID"})
-        }
-)
+        })
 @Check(constraints =
         "FIELD_GOALS_MADE <= FIELD_GOALS_ATTEMPTED AND " +
         "THREE_POINTS_MADE <= THREE_POINTS_ATTEMPTED AND " +
@@ -111,6 +110,10 @@ public class GameStats {
     @Column(name = "FOULS", nullable = false)
     public Integer fouls = 0;
 
+    @Version
+    @Column(name = "VERSION")
+    private Long version = 0L;
+
     public GameStats() {
     }
 
@@ -145,14 +148,43 @@ public class GameStats {
         this.team = team;
     }
 
-    @Version
-    @Column(name = "VERSION")
-    private Long version = 0L;
-
-    public Long getVersion() {
-        return version;
-    }
-
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public Game getGame() { return game; }
+    public void setGame(Game game) { this.game = game; }
+    public Player getPlayer() { return player; }
+    public void setPlayer(Player player) { this.player = player; }
+    public Team getTeam() { return team; }
+    public void setTeam(Team team) { this.team = team; }
+    public Integer getTimePlayedInSeconds() { return timePlayedInSeconds; }
+    public void setTimePlayedInSeconds(Integer timePlayedInSeconds) { this.timePlayedInSeconds = timePlayedInSeconds; }
+    public Integer getPoints() { return points; }
+    public void setPoints(Integer points) { this.points = points; }
+    public Integer getRebounds() { return rebounds; }
+    public void setRebounds(Integer rebounds) { this.rebounds = rebounds; }
+    public Integer getAssists() { return assists; }
+    public void setAssists(Integer assists) { this.assists = assists; }
+    public Integer getSteals() { return steals; }
+    public void setSteals(Integer steals) { this.steals = steals; }
+    public Integer getBlocks() { return blocks; }
+    public void setBlocks(Integer blocks) { this.blocks = blocks; }
+    public Integer getTurnovers() { return turnovers; }
+    public void setTurnovers(Integer turnovers) { this.turnovers = turnovers; }
+    public Integer getFieldGoalsMade() { return fieldGoalsMade; }
+    public void setFieldGoalsMade(Integer fieldGoalsMade) { this.fieldGoalsMade = fieldGoalsMade; }
+    public Integer getFieldGoalsAttempted() { return fieldGoalsAttempted; }
+    public void setFieldGoalsAttempted(Integer fieldGoalsAttempted) { this.fieldGoalsAttempted = fieldGoalsAttempted; }
+    public Integer getThreePointsMade() { return threePointsMade; }
+    public void setThreePointsMade(Integer threePointsMade) { this.threePointsMade = threePointsMade; }
+    public Integer getThreePointsAttempted() { return threePointsAttempted; }
+    public void setThreePointsAttempted(Integer threePointsAttempted) { this.threePointsAttempted = threePointsAttempted; }
+    public Integer getFreeThrowsMade() { return freeThrowsMade; }
+    public void setFreeThrowsMade(Integer freeThrowsMade) { this.freeThrowsMade = freeThrowsMade; }
+    public Integer getFreeThrowsAttempted() { return freeThrowsAttempted; }
+    public void setFreeThrowsAttempted(Integer freeThrowsAttempted) { this.freeThrowsAttempted = freeThrowsAttempted; }
+    public Integer getFouls() { return fouls; }
+    public void setFouls(Integer fouls) { this.fouls = fouls; }
+    public Long getVersion() { return version; }
     public void setVersion(Long version) {
         this.version = version;
     }
